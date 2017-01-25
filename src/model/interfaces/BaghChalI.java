@@ -2,13 +2,22 @@ package model.interfaces;
 
 /**
  * Interface for a Bagh Chal game model. See
- * <a href="https://en.wikipedia.org/wiki/Bagh-Chal">https://en.wikipedia.org/wiki/Bagh-Chal</a>
- * for more information.
+ * <a href="https://en.wikipedia.org/wiki/Bagh-Chal">https://en.wikipedia.org/wiki/Bagh-Chal</a> for
+ * more information.
+ * 
+ * @since v0.1
  * 
  * @author Torben Kr&uuml;ger
  *
  */
 public interface BaghChalI {
+
+	/**
+	 * Dimension (width <b>and</b> height) of a Bagh Chal board.
+	 * 
+	 * @since v1.0
+	 */
+	public static final int DIM = 5;
 
 	/**
 	 * Width of a Bagh Chal board.
@@ -25,8 +34,22 @@ public interface BaghChalI {
 	public static final int HEIGHT = 5;
 
 	/**
-	 * Sets a goat on a desired tile. If the desired tile is not empty or there are no goats left to
-	 * set, nothing happens.
+	 * Number of goats being set during a game.
+	 * 
+	 * @since v1.0
+	 */
+	public static final int GOATS_START_COUNT = 20;
+
+	/**
+	 * Numbers of goats needed to be eaten by the tiger player in order to win.
+	 * 
+	 * @since v1.0
+	 */
+	public static final int TIGER_WIN_CONDITION = 5;
+
+	/**
+	 * Sets a goat on a desired tile. If the desired tile is not empty, there are no goats left to
+	 * set or the game is already over, nothing happens.
 	 * 
 	 * @param row
 	 *            row of the desired tile
@@ -34,19 +57,28 @@ public interface BaghChalI {
 	 *            column of the desired tile
 	 * @return {@code true}, if the desired tile is free and there is at least 1 goat left to set
 	 * 
+	 * @throws IllegalArgumentException
+	 *             if {@code row} or {@code column} negative or greater equal {@link #DIM}
+	 * 
 	 * @since v0.1
 	 */
 	public boolean set(int row, int column);
 
 	/**
 	 * Selects a desired tile in order to perform a move. Therefore, the desired tile must contain a
-	 * figure of the current player. If the selection hasn't been successful, nothing happens.
+	 * figure of the current player and the game mustn't be over yet. Also, if the current player is
+	 * goat, there mustn't be any goats left to set.<br>
+	 * If the selection hasn't been successful, nothing happens.<br>
+	 * If there is already a tile selected, it will be overwritten by any new successful select.
 	 * 
 	 * @param row
 	 *            row of the desired tile
 	 * @param column
 	 *            column of the desired tile
 	 * @return {@code true}, if the selection has been successful
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if {@code row} or {@code column} negative or greater equal {@link #DIM}
 	 * 
 	 * @since v0.1
 	 */
@@ -62,6 +94,10 @@ public interface BaghChalI {
 	 * @param targetColumn
 	 *            column of the desired target tile
 	 * @return {@code true}, if the move has been successful
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if {@code targetRow} or {@code targetColumn} negative or greater equal
+	 *             {@link #DIM}
 	 * 
 	 * @since v0.1
 	 */
