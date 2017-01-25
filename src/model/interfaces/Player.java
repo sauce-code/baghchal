@@ -1,4 +1,4 @@
-package model.i;
+package model.interfaces;
 
 /**
  * Represents the players of a Bagh Chal game.

@@ -1,4 +1,4 @@
-package model.i;
+package model.interfaces;
 
 /**
  * Interface for a Bagh Chal game model. See
