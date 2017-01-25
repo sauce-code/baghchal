@@ -2,7 +2,7 @@ package model.interfaces;
 
 /**
  * Interface for a Bagh Chal game model. See
- * <a href="https://en.wikipedia.org/wiki/Bagh-Chal">https://en.wikipedia.org/ wiki/Bagh-Chal</a>
+ * <a href="https://en.wikipedia.org/wiki/Bagh-Chal">https://en.wikipedia.org/wiki/Bagh-Chal</a>
  * for more information.
  * 
  * @author Torben Kr&uuml;ger
