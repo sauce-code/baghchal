@@ -378,7 +378,7 @@ public class BaghChal implements BaghChalI {
 	private void checkInput(int value) {
 		if (value < 0 || value >= DIM) {
 			throw new IllegalArgumentException(
-					"has to be in range [ 0 ; " + DIM + " ), but was " + value);
+					"value has to be in range [ 0 ; " + DIM + " ), but was " + value);
 		}
 	}
 
