@@ -2,6 +2,7 @@ package model;
 
 import model.interfaces.BaghChalI;
 import model.interfaces.Player;
+import model.interfaces.Selection;
 
 /**
  * Implementation of {@link model.interfaces.BaghChalI}.
@@ -57,147 +58,231 @@ public class BaghChal implements BaghChalI {
 	private int goatsEaten;
 
 	/**
-	 * The current player.
-	 */
-	private Player currentPlayer;
-
-	/**
-	 * The winner.
-	 */
-	private Player winner;
-
-	/**
 	 * The current selection.
 	 */
-	private Selection selection;
+	private Selection selected;
+
+	/**
+	 * The current state.
+	 */
+	private State state;
 
 	/**
 	 * Creates a new instance of {@link BaghChal}.
 	 */
 	public BaghChal() {
-		board = new Player[HEIGHT][WIDTH];
-		for (int row = 0; row < HEIGHT; row++) {
-			for (int column = 0; column < WIDTH; column++) {
+		board = new Player[DIM][DIM];
+		for (int row = 0; row < DIM; row++) {
+			for (int column = 0; column < DIM; column++) {
 				board[row][column] = Player.NONE;
 			}
 		}
 		board[0][0] = Player.TIGER;
-		board[0][WIDTH] = Player.TIGER;
-		board[HEIGHT][WIDTH] = Player.TIGER;
-		board[HEIGHT][0] = Player.TIGER;
+		board[0][DIM - 1] = Player.TIGER;
+		board[DIM - 1][DIM - 1] = Player.TIGER;
+		board[DIM - 1][0] = Player.TIGER;
 		goatsLeftToSet = GOATS_START_COUNT;
 		goatsEaten = 0;
-		currentPlayer = Player.GOAT;
-		winner = Player.NONE;
-		selection = null;
+		selected = null;
+		state = State.GOAT_SET;
 	}
 
 	@Override
-	public boolean set(int row, int column) {
+	public Player[][] getBoard() {
+		return board.clone();
+	}
+
+	@Override
+	public int getGoatsEaten() {
+		return goatsEaten;
+	}
+
+	@Override
+	public int getGoatsLeftToSet() {
+		return goatsLeftToSet;
+	}
+
+	@Override
+	public Selection getSelection() {
+		return selected;
+	}
+
+	@Override
+	public State getState() {
+		return state;
+	}
+
+	@Override
+	public boolean action(int row, int column) {
+
 		checkInput(row);
 		checkInput(column);
-		if (!isGameOver() && (goatsLeftToSet > 0) && (board[row][column] == Player.NONE)) {
-			board[row][column] = Player.GOAT;
-			return true;
-		}
-		return false;
-	}
 
-	@Override
-	public boolean select(int row, int column) {
-		checkInput(row);
-		checkInput(column);
-		if (!isGameOver() && (board[row][column] == currentPlayer)
-				&& (currentPlayer != Player.GOAT || goatsLeftToSet == 0)) {
-			selection = new Selection(row, column);
-			return true;
-		}
-		return false;
-	}
+		switch (state) {
 
-	@Override
-	public boolean move(int targetRow, int targetColumn) {
-		checkInput(targetRow);
-		checkInput(targetColumn);
-		if ((selection == null) || (board[targetRow][targetColumn] != Player.NONE)) {
+		case TIGER_WON:
 			return false;
-		}
-		switch (getMovePossibility(selection.row, selection.column, targetRow, targetColumn)) {
-		case 0:
+
+		case GOAT_WON:
 			return false;
-		case 1:
-			board[selection.row][selection.column] = null;
-			board[targetRow][targetColumn] = currentPlayer;
-			break;
-		case 2:
-			int betweenRow = (selection.row + targetRow) / 2;
-			int betweenColumn = (selection.column + targetColumn) / 2;
-			if ((currentPlayer != Player.TIGER)
-					|| (board[betweenRow][betweenColumn] != Player.GOAT)) {
-				return false;
+
+		case GOAT_SET:
+			if (board[row][column] == Player.NONE) {
+				board[row][column] = Player.GOAT;
+				goatsLeftToSet--;
+				switch (getWinner()) {
+				case GOAT:
+					state = State.GOAT_WON;
+					return true;
+				case TIGER:
+					state = State.TIGER_WON;
+					return true;
+				case NONE:
+					state = State.TIGER_SELECT;
+					return true;
+				default:
+					throw new InternalError("no such enum");
+				}
 			}
-			board[selection.row][selection.column] = Player.NONE;
-			board[betweenRow][betweenColumn] = Player.NONE;
-			goatsEaten++;
-			board[targetRow][targetColumn] = Player.TIGER;
-			break;
+			return false;
+
+		case GOAT_MOVE:
+			switch (board[row][column]) {
+			case GOAT:
+				selected = new Selection(row, column);
+				return true;
+			case TIGER:
+				return false;
+			case NONE:
+				if ((getMovePossibility(selected.row, selected.column, row, column)) == 1) {
+					board[selected.row][selected.column] = Player.NONE;
+					board[row][column] = Player.GOAT;
+					switch (getWinner()) {
+					case GOAT:
+						state = State.GOAT_WON;
+						return true;
+					case TIGER:
+						state = State.TIGER_WON;
+						return true;
+					case NONE:
+						state = State.TIGER_SELECT;
+						return true;
+					default:
+						throw new InternalError("no such enum");
+					}
+				}
+				return false;
+			default:
+				throw new InternalError("no such enum");
+			}
+
+		case GOAT_SELECT:
+			if (board[row][column] == Player.GOAT) {
+				selected = new Selection(row, column);
+				state = State.GOAT_MOVE;
+				return true;
+			}
+			return false;
+
+		case TIGER_MOVE:
+			switch (board[row][column]) {
+			case GOAT:
+				return false;
+			case TIGER:
+				selected = new Selection(row, column);
+				return true;
+			case NONE:
+				switch (getMovePossibility(selected.row, selected.column, row, column)) {
+				case 0:
+					return false;
+				case 1:
+					board[selected.row][selected.column] = Player.NONE;
+					board[row][column] = Player.TIGER;
+					selected = null;
+					state = (goatsLeftToSet > 0) ? State.GOAT_SET : State.GOAT_SELECT;
+					return true;
+				case 2:
+					int betweenRow = (selected.row + row) / 2;
+					int betweenColumn = (selected.column + column) / 2;
+					if (board[betweenRow][betweenColumn] != Player.GOAT) {
+						return false;
+					}
+					board[selected.row][selected.column] = Player.NONE;
+					board[betweenRow][betweenColumn] = Player.NONE;
+					goatsEaten++;
+					board[row][column] = Player.TIGER;
+					selected = null;
+					switch (getWinner()) {
+					case GOAT:
+						state = State.GOAT_WON;
+						return true;
+					case TIGER:
+						state = State.TIGER_WON;
+						return true;
+					case NONE:
+						state = (goatsLeftToSet > 0) ? State.GOAT_SET : State.GOAT_SELECT;
+						return true;
+					default:
+						throw new InternalError("no such enum");
+					}
+				default:
+					throw new InternalError("no such enum");
+				}
+			default:
+				throw new InternalError("no such enum");
+			}
+
+		case TIGER_SELECT:
+			if (board[row][column] == Player.TIGER) {
+				selected = new Selection(row, column);
+				state = State.TIGER_MOVE;
+				return true;
+			}
+			return false;
+
 		default:
-			throw new InternalError();
+			throw new InternalError("no such enum");
 		}
-		selection = null;
-		currentPlayer = currentPlayer.getOpponent();
-		checkGameOver();
-		return true;
+
 	}
 
-	private void checkGameOver() {
-		if (goatsEaten == TIGER_WIN_CONDITION) {
-			winner = Player.TIGER;
-			currentPlayer = Player.NONE;
-		}
-		if (!anyTigerCanMove()) {
-			winner = Player.GOAT;
-			currentPlayer = Player.NONE;
-		}
-	}
+	@Override
+	public String toString() {
 
-	/**
-	 * Returns wether at least 1 tiger is able to move.
-	 * 
-	 * @return {@code true}, if at least 1 tiger is able to move
-	 */
-	private boolean anyTigerCanMove() {
-		boolean canMove = false;
+		StringBuilder sb = new StringBuilder();
+
 		for (int row = 0; row < DIM; row++) {
 			for (int column = 0; column < DIM; column++) {
-				if ((board[row][column] == Player.TIGER) && tigerCanMove(row, column)) {
-					canMove = true;
-				}
+				sb.append(board[row][column].toChar());
+				sb.append("---");
+			}
+			sb.delete(sb.length() - 3, sb.length());
+			sb.append('\n');
+			if (row % 2 == 0) {
+				sb.append("| \\ | / | \\ | / |\n");
+			} else {
+				sb.append("| / | \\ | / | \\ |\n");
 			}
 		}
-		return canMove;
-	}
+		sb.delete(sb.length() - 18, sb.length());
 
-	/**
-	 * Returns wether a specific tiger is able to move. This method expects that the given
-	 * {@code row} and {@code column} point on a tiger.
-	 * 
-	 * @param row
-	 *            row of the specific tiger
-	 * @param column
-	 *            column of the specific tiger
-	 * @return {@code true}, if the specific tiger is able to move
-	 */
-	private boolean tigerCanMove(int row, int column) {
-		boolean canMove = false;
-		for (int targetRow = 0; targetRow < DIM; targetRow++) {
-			for (int targetColumn = 0; targetColumn < DIM; targetColumn++) {
-				if (getMovePossibility(row, column, targetRow, targetColumn) > 0) {
-					canMove = true;
-				}
-			}
-		}
-		return canMove;
+		sb.append("goats left to set: ");
+		sb.append(goatsLeftToSet);
+		sb.append('\n');
+
+		sb.append("goats eaten: ");
+		sb.append(goatsEaten);
+		sb.append('\n');
+
+		sb.append("selected: ");
+		sb.append(selected);
+		sb.append('\n');
+
+		sb.append("state: ");
+		sb.append(state);
+		sb.append('\n');
+
+		return sb.toString();
 	}
 
 	/**
@@ -222,47 +307,62 @@ public class BaghChal implements BaghChalI {
 		return MOVES[row * 5 + column][targetRow * 5 + targetColumn];
 	}
 
-	@Override
-	public Player[][] getBoard() {
-		return board.clone();
-	}
-
-	@Override
-	public Player getCurrentPlayer() {
-		return currentPlayer;
-	}
-
-	@Override
-	public int getGoatsEaten() {
-		return goatsEaten;
-	}
-
-	@Override
-	public int getGoatsLeftToSet() {
-		return goatsLeftToSet;
-	}
-
-	@Override
-	public boolean isGameOver() {
-		return (winner != Player.NONE);
-	}
-
-	@Override
-	public Player getWinner() {
-		return winner;
-	}
-
-	private class Selection {
-
-		private Selection(int row, int column) {
-			this.row = row;
-			this.column = column;
+	/**
+	 * Returns wether at least 1 tiger is able to move.
+	 * 
+	 * @return {@code true}, if at least 1 tiger is able to move
+	 */
+	private boolean anyTigerCanMove() {
+		for (int row = 0; row < DIM; row++) {
+			for (int column = 0; column < DIM; column++) {
+				if ((board[row][column] == Player.TIGER) && tigerCanMove(row, column)) {
+					return true;
+				}
+			}
 		}
+		return false;
+	}
 
-		private int row;
+	/**
+	 * Returns wether a specific tiger is able to move. This method expects that the given
+	 * {@code row} and {@code column} point on a tiger.
+	 * 
+	 * @param row
+	 *            row of the specific tiger
+	 * @param column
+	 *            column of the specific tiger
+	 * @return {@code true}, if the specific tiger is able to move
+	 */
+	private boolean tigerCanMove(int row, int column) {
+		for (int targetRow = 0; targetRow < DIM; targetRow++) {
+			for (int targetColumn = 0; targetColumn < DIM; targetColumn++) {
+				if (getMovePossibility(row, column, targetRow, targetColumn) > 0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-		private int column;
-
+	/**
+	 * Returns the winner of this match.
+	 * 
+	 * @return
+	 * 		<ul>
+	 *         <li>{@link Player#GOAT}, if no tiger can move anymore</li>
+	 *         <li>{@link Player#TIGER}, if {@link BaghChalI#TIGER_WIN_CONDITION} goats are eaten
+	 *         </li>
+	 *         <li>{@link Player#NONE}, else</li>
+	 *         </ul>
+	 */
+	private Player getWinner() {
+		if (goatsEaten == TIGER_WIN_CONDITION) {
+			return Player.TIGER;
+		}
+		if (!anyTigerCanMove()) {
+			return Player.GOAT;
+		}
+		return Player.NONE;
 	}
 
 	/**

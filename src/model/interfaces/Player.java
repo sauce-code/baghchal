@@ -3,33 +3,23 @@ package model.interfaces;
 /**
  * Represents the players of a Bagh Chal game.
  * 
- * @since v0.1
- * 
  * @author Torben Kr&uuml;ger
- * 
- * @see BaghChalI
  * 
  */
 public enum Player {
 
 	/**
 	 * The goat player.
-	 * 
-	 * @since v0.1
 	 */
 	GOAT,
 
 	/**
 	 * The tiger player.
-	 * 
-	 * @since v0.1
 	 */
 	TIGER,
 
 	/**
 	 * No player.
-	 * 
-	 * @since v0.1
 	 */
 	NONE;
 
@@ -42,8 +32,6 @@ public enum Player {
 	 *         <li>{@link #GOAT}, if {@code this} is {@link #TIGER}</li>
 	 *         <li>{@link #NONE}, if {@code this} is {@link #NONE}</li>
 	 *         </ul>
-	 * 
-	 * @since v1.0
 	 */
 	public Player getOpponent() {
 		switch (this) {
@@ -53,6 +41,24 @@ public enum Player {
 			return GOAT;
 		case NONE:
 			return NONE;
+		default:
+			throw new IllegalArgumentException("no such enum");
+		}
+	}
+
+	/**
+	 * Returns the enum as a char.
+	 * 
+	 * @return enum as a char
+	 */
+	public char toChar() {
+		switch (this) {
+		case GOAT:
+			return 'G';
+		case TIGER:
+			return 'T';
+		case NONE:
+			return ' ';
 		default:
 			throw new IllegalArgumentException("no such enum");
 		}

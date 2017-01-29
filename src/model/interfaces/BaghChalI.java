@@ -5,7 +5,7 @@ package model.interfaces;
  * <a href="https://en.wikipedia.org/wiki/Bagh-Chal">https://en.wikipedia.org/wiki/Bagh-Chal</a> for
  * more information.
  * 
- * @since v0.1
+ * @since v1.0
  * 
  * @author Torben Kr&uuml;ger
  *
@@ -18,20 +18,6 @@ public interface BaghChalI {
 	 * @since v1.0
 	 */
 	public static final int DIM = 5;
-
-	/**
-	 * Width of a Bagh Chal board.
-	 * 
-	 * @since v0.1
-	 */
-	public static final int WIDTH = 5;
-
-	/**
-	 * Height of a Bagh Chal board.
-	 * 
-	 * @since v0.1
-	 */
-	public static final int HEIGHT = 5;
 
 	/**
 	 * Number of goats being set during a game.
@@ -48,90 +34,20 @@ public interface BaghChalI {
 	public static final int TIGER_WIN_CONDITION = 5;
 
 	/**
-	 * Sets a goat on a desired tile. If the desired tile is not empty, there are no goats left to
-	 * set or the game is already over, nothing happens.
-	 * 
-	 * @param row
-	 *            row of the desired tile
-	 * @param column
-	 *            column of the desired tile
-	 * @return {@code true}, if the desired tile is free and there is at least 1 goat left to set
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if {@code row} or {@code column} negative or greater equal {@link #DIM}
-	 * 
-	 * @since v0.1
-	 */
-	public boolean set(int row, int column);
-
-	/**
-	 * Selects a desired tile in order to perform a move. Therefore, the desired tile must contain a
-	 * figure of the current player and the game mustn't be over yet. Also, if the current player is
-	 * goat, there mustn't be any goats left to set.<br>
-	 * If the selection hasn't been successful, nothing happens.<br>
-	 * If there is already a tile selected, it will be overwritten by any new successful select.
-	 * 
-	 * @param row
-	 *            row of the desired tile
-	 * @param column
-	 *            column of the desired tile
-	 * @return {@code true}, if the selection has been successful
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if {@code row} or {@code column} negative or greater equal {@link #DIM}
-	 * 
-	 * @since v0.1
-	 */
-	public boolean select(int row, int column);
-
-	/**
-	 * Moves the previously selected figure by {@link #select(int, int)} to a desired location. If
-	 * no figure has been selected previously or the desired location is invalid, nothing happens.
-	 * If the move is successful, the selected figure will be unselected.
-	 * 
-	 * @param targetRow
-	 *            row of the desired target tile
-	 * @param targetColumn
-	 *            column of the desired target tile
-	 * @return {@code true}, if the move has been successful
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if {@code targetRow} or {@code targetColumn} negative or greater equal
-	 *             {@link #DIM}
-	 * 
-	 * @since v0.1
-	 */
-	public boolean move(int targetRow, int targetColumn);
-
-	/**
 	 * Returns a <b>copy</b> of the current state of the board.
 	 * 
 	 * @return <b>copy</b> of the current state of the board
 	 * 
-	 * @since v0.1
+	 * @since v1.0
 	 */
 	public Player[][] getBoard();
-
-	/**
-	 * Returns the current player, who will do the next move.
-	 * 
-	 * @return
-	 * 		<ul>
-	 *         <li>{@link Player#GOAT}, if it's goat player's turn</li>
-	 *         <li>{@link Player#TIGER}, if it's tiger player's turn</li>
-	 *         <li>{@link Player#NONE}, if the game is over</li>
-	 *         </ul>
-	 * 
-	 * @since v0.1
-	 */
-	public Player getCurrentPlayer();
 
 	/**
 	 * Returns the number of goats eaten.
 	 * 
 	 * @return number of goats eaten
 	 * 
-	 * @since v0.1
+	 * @since v1.0
 	 */
 	public int getGoatsEaten();
 
@@ -140,32 +56,98 @@ public interface BaghChalI {
 	 * 
 	 * @return number of goats left to set
 	 * 
-	 * @since v0.1
+	 * @since v1.0
 	 */
 	public int getGoatsLeftToSet();
 
 	/**
-	 * Tells wether the game is over or not.
+	 * Performs an action. This method's behavior depends on its current state, see
+	 * {@link #getState()}.
+	 * <ul>
+	 * <li>{@link State#GOAT_SET}: sets a goat on tile {@code row} / {@code column}</li>
+	 * <li>{@link State#GOAT_SELECT}: selects tile {@code row} / {@code column}</li>
+	 * <li>{@link State#GOAT_MOVE}: moves the selected goat to {@code row} / {@code column}</li>
+	 * <li>{@link State#TIGER_SELECT}: selects tile {@code row} / {@code column}</li>
+	 * <li>{@link State#TIGER_MOVE}: moves the selected tiger to {@code row} / {@code column}</li>
+	 * <li>any other {@link State}: no action will take place</li>
+	 * </ul>
 	 * 
-	 * @return {@code true}, if the tigers capture five goats, or the goats have blocked the tigers
-	 *         from being able to move
-	 * 
-	 * @since v0.1
+	 * @param row
+	 *            row used for this action
+	 * @param column
+	 *            column used for this action
+	 * @return {@code true}, if this action has been successful
+	 * @throws IllegalArgumentException
+	 *             if {@code row} or {@code column} are smaller than {@code 0} or greater equals
+	 *             than {@link BaghChalI#DIM}
 	 */
-	public boolean isGameOver();
+	public boolean action(int row, int column);
 
 	/**
-	 * Returns the winner of this game.
+	 * Returns the current selected tile.
 	 * 
 	 * @return
 	 * 		<ul>
-	 *         <li>{@link Player#GOAT}, if goat player won</li>
-	 *         <li>{@link Player#TIGER}, if tiger player won</li>
-	 *         <li>{@link Player#NONE}, if the game is not over yet</li>
+	 *         <li>current selected tile</li>
+	 *         <li>{@code null}, if there is currently no selected tile</li>
 	 *         </ul>
-	 * 
-	 * @since v0.1
 	 */
-	public Player getWinner();
+	public Selection getSelection();
+
+	/**
+	 * Returns the current {@link State}. This method will never return {@code null}.
+	 * 
+	 * @return current {@link State}
+	 */
+	public State getState();
+
+	/**
+	 * States used by any Bagh Chal implementation.
+	 * 
+	 * @author Torben Kr&uuml;ger
+	 * 
+	 * @see BaghChalI
+	 *
+	 */
+	public enum State {
+
+		/**
+		 * It's goat player's turn. There are goats left to set, see
+		 * {@link BaghChalI#getGoatsLeftToSet()}. His task is to place a goat on a free field.
+		 */
+		GOAT_SET,
+
+		/**
+		 * It's tiger player's turn. His task is to select a tiger to move.
+		 */
+		TIGER_SELECT,
+
+		/**
+		 * It's tiger player's turn. His task is to move the selected tiger.
+		 */
+		TIGER_MOVE,
+
+		/**
+		 * It's goat player's turn. There are no goats left to set, see
+		 * {@link BaghChalI#getGoatsLeftToSet()}. His task is to select a goat to move.
+		 */
+		GOAT_SELECT,
+
+		/**
+		 * It's goat player's turn. His task is to move the selected goat.
+		 */
+		GOAT_MOVE,
+
+		/**
+		 * The game is over. Goat player won.
+		 */
+		GOAT_WON,
+
+		/**
+		 * The game is over. tiger player won.
+		 */
+		TIGER_WON;
+
+	}
 
 }
