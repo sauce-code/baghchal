@@ -373,7 +373,7 @@ public class BaghChal implements BaghChalI {
 	 *            value to be checked
 	 * 
 	 * @throws IllegalArgumentException
-	 *             if the value is not in range {@code [ 0 ; } {@link BaghChalI#DIM} {@code )}
+	 *             if {@code value} is not in range {@code [ 0 ; } {@link BaghChalI#DIM} {@code )}
 	 */
 	private void checkInput(int value) {
 		if (value < 0 || value >= DIM) {
