@@ -80,6 +80,8 @@ public interface BaghChalI {
 	 * @throws IllegalArgumentException
 	 *             if {@code row} or {@code column} are smaller than {@code 0} or greater equals
 	 *             than {@link BaghChalI#DIM}
+	 * 
+	 * @since v1.0
 	 */
 	public boolean action(int row, int column);
 
@@ -91,6 +93,8 @@ public interface BaghChalI {
 	 *         <li>current selected tile</li>
 	 *         <li>{@code null}, if there is currently no selected tile</li>
 	 *         </ul>
+	 * 
+	 * @since v1.0
 	 */
 	public Selection getSelection();
 
@@ -98,8 +102,33 @@ public interface BaghChalI {
 	 * Returns the current {@link State}. This method will never return {@code null}.
 	 * 
 	 * @return current {@link State}
+	 * 
+	 * @since v1.0
 	 */
 	public State getState();
+
+	/**
+	 * Undos the last action. Ignores selections, so the resulting {@link State} will always be
+	 * {@link State#GOAT_SET}, {@link State#GOAT_SELECT} or {@link State#TIGER_SELECT}.
+	 * 
+	 * @return {@code true}, if undo has been successful
+	 * 
+	 * @since v1.2
+	 */
+	public default boolean undo() {
+		return false;
+	}
+
+	/**
+	 * Redos the last undone action.
+	 * 
+	 * @return {@code true, if redo has been successful}
+	 * 
+	 * @since v1.2
+	 */
+	public default boolean redo() {
+		return false;
+	}
 
 	/**
 	 * States used by any Bagh Chal implementation.
@@ -107,7 +136,6 @@ public interface BaghChalI {
 	 * @author Torben Kr&uuml;ger
 	 * 
 	 * @see BaghChalI
-	 *
 	 */
 	public enum State {
 
