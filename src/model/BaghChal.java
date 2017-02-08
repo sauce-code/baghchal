@@ -157,6 +157,7 @@ public class BaghChal implements BaghChalI {
 				if ((getMovePossibility(selected.row, selected.column, row, column)) == 1) {
 					board[selected.row][selected.column] = Player.NONE;
 					board[row][column] = Player.GOAT;
+					selected = null;
 					switch (getWinner()) {
 					case GOAT:
 						state = State.GOAT_WON;
