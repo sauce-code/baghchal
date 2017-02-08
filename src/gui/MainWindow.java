@@ -223,6 +223,12 @@ public class MainWindow extends Application {
 	 * @return the initialized menubar
 	 */
 	private Node initMenuBar() {
+		
+		MenuItem rules = new MenuItem("_Rules");
+		rules.setOnAction(e -> {
+			getHostServices().showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules");
+		});
+		
 		MenuItem about = new MenuItem("A_bout");
 
 		about.setOnAction(e -> {
@@ -236,7 +242,7 @@ public class MainWindow extends Application {
 			alert.showAndWait();
 		});
 
-		Menu menuHelp = new Menu("_Help", null, about);
+		Menu menuHelp = new Menu("_Help", null, rules, new SeparatorMenuItem(), about);
 
 		// =========================================================================================
 		// =========================================================================================
