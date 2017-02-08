@@ -349,7 +349,6 @@ public class MainWindow extends Application {
 				+ game.getGoatsLeftToSet() + " | State: " + game.getState().toString());
 		
 		// refresh undo and redo
-		// TODO
 		undo.setDisable(!game.isAnyUndoLeft());
 		redo.setDisable(!game.isAnyRedoLeft());
 	}
