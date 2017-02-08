@@ -131,6 +131,24 @@ public interface BaghChalI {
 	}
 
 	/**
+	 * Tells wether there is any undo left.
+	 * 
+	 * @return {@code true}, if there is any undo left
+	 */
+	public default boolean isAnyUndoLeft() {
+		return false;
+	}
+
+	/**
+	 * Tells wether there is any redo left.
+	 * 
+	 * @return {@code true}, if there is any redo left
+	 */
+	public default boolean isAnyRedoLeft() {
+		return false;
+	}
+
+	/**
 	 * States used by any Bagh Chal implementation.
 	 * 
 	 * @author Torben Kr&uuml;ger

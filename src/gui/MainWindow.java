@@ -350,8 +350,8 @@ public class MainWindow extends Application {
 		
 		// refresh undo and redo
 		// TODO
-		undo.setDisable(true);
-		redo.setDisable(true);
+		undo.setDisable(!game.isAnyUndoLeft());
+		redo.setDisable(!game.isAnyRedoLeft());
 	}
 
 	@Override
