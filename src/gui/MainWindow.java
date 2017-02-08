@@ -82,6 +82,16 @@ public class MainWindow extends Application {
 	 * The color being used for strokes of selected pieces.
 	 */
 	private Color colorSelected = Color.CYAN;
+	
+	/**
+	 * Menuitem for calling {@link BaghChal#undo()} on {@link #game}.
+	 */
+	private MenuItem undo;
+	
+	/**
+	 * Menuitem for calling {@link BaghChal#redo()} on {@link #game}.
+	 */
+	private MenuItem redo;
 
 	/**
 	 * Initializes the color maps.
@@ -248,6 +258,40 @@ public class MainWindow extends Application {
 		// =========================================================================================
 		// =========================================================================================
 
+        undo = new MenuItem("_Undo");
+        undo.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
+        undo.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                if (game.undo())
+                {
+                    refresh();
+                }
+            }
+        });
+
+        redo = new MenuItem("_Redo");
+        redo.setAccelerator(KeyCombination.keyCombination("Ctrl+Y"));
+        redo.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                if (game.redo())
+                {
+                    refresh();
+                }
+            }
+        });
+
+        Menu menuEdit = new Menu("_Edit", null, undo, redo);
+
+        // =========================================================================================
+        // =========================================================================================
+        // =========================================================================================
+
 		MenuItem restart = new MenuItem("_New Game");
 		restart.setAccelerator(KeyCombination.keyCombination("F2"));
 		restart.setOnAction(new EventHandler<ActionEvent>() {
@@ -273,7 +317,7 @@ public class MainWindow extends Application {
 		// =========================================================================================
 		// =========================================================================================
 
-		MenuBar ret = new MenuBar(menuFile, menuHelp);
+		MenuBar ret = new MenuBar(menuFile, menuEdit, menuHelp);
 		ret.setUseSystemMenuBar(true);
 		ret.useSystemMenuBarProperty().set(true);
 		return ret;
@@ -303,6 +347,11 @@ public class MainWindow extends Application {
 		// set status bar text
 		statusBar.setText("goats eaten: " + game.getGoatsEaten() + " | goats left to set: "
 				+ game.getGoatsLeftToSet() + " | State: " + game.getState().toString());
+		
+		// refresh undo and redo
+		// TODO
+		undo.setDisable(true);
+		redo.setDisable(true);
 	}
 
 	@Override
