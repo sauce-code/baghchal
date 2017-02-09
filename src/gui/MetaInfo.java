@@ -16,7 +16,7 @@ public class MetaInfo {
 	/**
 	 * The current version.
 	 */
-	public static final String VERSION = "v1.1";
+	public static final String VERSION = "v1.2";
 
 	/**
 	 * The author.

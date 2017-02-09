@@ -134,6 +134,8 @@ public interface BaghChalI {
 	 * Tells wether there is any undo left.
 	 * 
 	 * @return {@code true}, if there is any undo left
+	 * 
+	 * @since v1.2
 	 */
 	public default boolean isAnyUndoLeft() {
 		return false;
@@ -143,6 +145,8 @@ public interface BaghChalI {
 	 * Tells wether there is any redo left.
 	 * 
 	 * @return {@code true}, if there is any redo left
+	 * 
+	 * @since v1.2
 	 */
 	public default boolean isAnyRedoLeft() {
 		return false;
