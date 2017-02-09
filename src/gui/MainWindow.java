@@ -345,8 +345,8 @@ public class MainWindow extends Application {
 		}
 
 		// set status bar text
-		statusBar.setText("goats eaten: " + game.getGoatsEaten() + " | goats left to set: "
-				+ game.getGoatsLeftToSet() + " | State: " + game.getState().toString());
+		statusBar.setText("goats eaten: " + game.getGoatsEaten() + "    goats left to set: "
+				+ game.getGoatsLeftToSet() + "    State: " + game.getState().toString());
 		
 		// refresh undo and redo
 		undo.setDisable(!game.isAnyUndoLeft());

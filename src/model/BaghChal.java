@@ -67,6 +67,10 @@ public class BaghChal implements BaghChalI {
 	 */
 	private State state;
 
+	private BaghChal previous;
+
+	private BaghChal next;
+
 	/**
 	 * Creates a new instance of {@link BaghChal}.
 	 */
@@ -85,6 +89,27 @@ public class BaghChal implements BaghChalI {
 		goatsEaten = 0;
 		selected = null;
 		state = State.GOAT_SET;
+		previous = null;
+		next = null;
+	}
+
+	private BaghChal(BaghChal orig) {
+		board = new Player[DIM][DIM];
+		for (int row = 0; row < DIM; row++) {
+			board[row] = orig.board[row].clone();
+		}
+		goatsLeftToSet = orig.goatsLeftToSet;
+		goatsEaten = orig.goatsEaten;
+		selected = null;
+		state = orig.state;
+		if (state == State.GOAT_MOVE) {
+			state = State.GOAT_SELECT;
+		}
+		if (state == State.TIGER_MOVE) {
+			state = State.TIGER_SELECT;
+		}
+		previous = orig.previous;
+		next = orig.next;
 	}
 
 	@Override
@@ -128,6 +153,8 @@ public class BaghChal implements BaghChalI {
 
 		case GOAT_SET:
 			if (board[row][column] == Player.NONE) {
+				previous = clone();
+				previous.next = this;
 				board[row][column] = Player.GOAT;
 				goatsLeftToSet--;
 				switch (getWinner()) {
@@ -149,12 +176,19 @@ public class BaghChal implements BaghChalI {
 		case GOAT_MOVE:
 			switch (board[row][column]) {
 			case GOAT:
-				selected = new Selection(row, column);
-				return true;
+				if ((selected.row == row) && (selected.column == column)) {
+					selected = null;
+					state = State.GOAT_SELECT;
+					return true;
+				} else {
+					selected = new Selection(row, column);
+					return true;
+				}
 			case TIGER:
 				return false;
 			case NONE:
 				if ((getMovePossibility(selected.row, selected.column, row, column)) == 1) {
+					previous = clone();
 					board[selected.row][selected.column] = Player.NONE;
 					board[row][column] = Player.GOAT;
 					selected = null;
@@ -190,13 +224,20 @@ public class BaghChal implements BaghChalI {
 			case GOAT:
 				return false;
 			case TIGER:
-				selected = new Selection(row, column);
-				return true;
+				if ((selected.row == row) && (selected.column == column)) {
+					selected = null;
+					state = State.TIGER_SELECT;
+					return true;
+				} else {
+					selected = new Selection(row, column);
+					return true;
+				}
 			case NONE:
 				switch (getMovePossibility(selected.row, selected.column, row, column)) {
 				case 0:
 					return false;
 				case 1:
+					previous = clone();
 					board[selected.row][selected.column] = Player.NONE;
 					board[row][column] = Player.TIGER;
 					selected = null;
@@ -208,6 +249,7 @@ public class BaghChal implements BaghChalI {
 					if (board[betweenRow][betweenColumn] != Player.GOAT) {
 						return false;
 					}
+					previous = clone();
 					board[selected.row][selected.column] = Player.NONE;
 					board[betweenRow][betweenColumn] = Player.NONE;
 					goatsEaten++;
@@ -248,6 +290,52 @@ public class BaghChal implements BaghChalI {
 	}
 
 	@Override
+	public boolean undo() {
+		if (isAnyUndoLeft()) {
+			BaghChal clone = clone();
+			board = previous.board;
+			goatsLeftToSet = previous.goatsLeftToSet;
+			goatsEaten = previous.goatsEaten;
+			selected = previous.selected;
+			state = previous.state;
+			previous = previous.previous;
+			next = clone;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean redo() {
+		if (isAnyRedoLeft()) {
+			BaghChal clone = clone();
+			if (previous != null) {
+				previous.next = clone();
+			}
+			board = next.board;
+			goatsLeftToSet = next.goatsLeftToSet;
+			goatsEaten = next.goatsEaten;
+			selected = next.selected;
+			state = next.state;
+			previous = clone;
+			clone.next = this;
+			next = next.next;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isAnyUndoLeft() {
+		return previous != null;
+	}
+
+	@Override
+	public boolean isAnyRedoLeft() {
+		return next != null;
+	}
+
+	@Override
 	public String toString() {
 
 		StringBuilder sb = new StringBuilder();
@@ -284,6 +372,11 @@ public class BaghChal implements BaghChalI {
 		sb.append('\n');
 
 		return sb.toString();
+	}
+
+	@Override
+	public BaghChal clone() {
+		return new BaghChal(this);
 	}
 
 	/**
@@ -337,7 +430,13 @@ public class BaghChal implements BaghChalI {
 	private boolean tigerCanMove(int row, int column) {
 		for (int targetRow = 0; targetRow < DIM; targetRow++) {
 			for (int targetColumn = 0; targetColumn < DIM; targetColumn++) {
-				if (getMovePossibility(row, column, targetRow, targetColumn) > 0) {
+				int move = getMovePossibility(row, column, targetRow, targetColumn);
+				if (move == 2 && board[targetRow][targetColumn] == Player.NONE
+						&& board[(row + targetRow) / 2][(column + targetColumn)
+								/ 2] == Player.GOAT) {
+					return true;
+				}
+				if (move == 1 && board[targetRow][targetColumn] == Player.NONE) {
 					return true;
 				}
 			}
