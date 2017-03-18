@@ -196,7 +196,7 @@ public interface BaghChalI {
 		GOAT_WON,
 
 		/**
-		 * The game is over. tiger player won.
+		 * The game is over. Tiger player won.
 		 */
 		TIGER_WON;
 
