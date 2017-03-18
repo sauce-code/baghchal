@@ -185,7 +185,8 @@ public interface BaghChalI {
 		GOAT_SELECT,
 
 		/**
-		 * It's goat player's turn. His task is to move the selected goat.
+		 * It's goat player's turn. His task is to move the selected goat. He may also select
+		 * another goat or unselect the selected goat.
 		 */
 		GOAT_MOVE,
 
