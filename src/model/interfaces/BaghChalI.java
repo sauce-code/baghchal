@@ -173,7 +173,8 @@ public interface BaghChalI {
 		TIGER_SELECT,
 
 		/**
-		 * It's tiger player's turn. His task is to move the selected tiger.
+		 * It's tiger player's turn. His task is to move the selected tiger. He may also select
+		 * another tiger or unselect the selected tiger.
 		 */
 		TIGER_MOVE,
 
