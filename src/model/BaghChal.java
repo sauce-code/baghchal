@@ -53,7 +53,8 @@ public class BaghChal implements BaghChalI {
 	private int goatsLeftToSet;
 
 	/**
-	 * The number of goats eaten.
+	 * The number of goats eaten. This value <b>always</b> has to be in range [ 0 ;
+	 * {@link BaghChalI#TIGER_WIN_CONDITION} ].
 	 */
 	private int goatsEaten;
 
