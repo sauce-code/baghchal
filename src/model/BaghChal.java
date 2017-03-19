@@ -68,8 +68,14 @@ public class BaghChal implements BaghChalI {
 	 */
 	private State state;
 
+	/**
+	 * The previous game. Used for {@link #undo()}.
+	 */
 	private BaghChal previous;
 
+	/**
+	 * The following game. used for {@link #redo()}.
+	 */
 	private BaghChal next;
 
 	/**
