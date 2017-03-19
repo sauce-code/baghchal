@@ -100,6 +100,12 @@ public class BaghChal implements BaghChalI {
 		next = null;
 	}
 
+	/**
+	 * Creates a clone of an existing BaghChal game.
+	 * 
+	 * @param orig
+	 *            original game, wwich shall be cloned
+	 */
 	private BaghChal(BaghChal orig) {
 		board = new Player[DIM][DIM];
 		for (int row = 0; row < DIM; row++) {
