@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>baghchal</groupId>
 	<artifactId>baghchal</artifactId>
-	<version>v1.3</version>
+	<version>v1.4-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
