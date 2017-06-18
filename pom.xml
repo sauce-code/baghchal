@@ -12,6 +12,7 @@
 				<directory>res</directory>
 				<excludes>
 					<exclude>**/*.java</exclude>
+					<exclude>**/*.xcf</exclude>
 				</excludes>
 			</resource>
 		</resources>
