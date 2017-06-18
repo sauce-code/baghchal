@@ -82,12 +82,12 @@ public class MainWindow extends Application {
 	 * The color being used for strokes of selected pieces.
 	 */
 	private Color colorSelected = Color.CYAN;
-	
+
 	/**
 	 * Menuitem for calling {@link BaghChal#undo()} on {@link #game}.
 	 */
 	private MenuItem undo;
-	
+
 	/**
 	 * Menuitem for calling {@link BaghChal#redo()} on {@link #game}.
 	 */
@@ -233,22 +233,26 @@ public class MainWindow extends Application {
 	 * @return the initialized menubar
 	 */
 	private Node initMenuBar() {
-		
+
 		MenuItem rules = new MenuItem("_Rules");
 		rules.setOnAction(e -> {
 			getHostServices().showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules");
 		});
-		
+
 		MenuItem about = new MenuItem("A_bout");
 
 		about.setOnAction(e -> {
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setGraphic(new ImageView(icon));
+			ImageView image = new ImageView(icon);
+			image.setFitWidth(100.0);
+			image.setFitHeight(100.0);
+			alert.setGraphic(image);
 			alert.initStyle(StageStyle.UTILITY);
 			alert.setTitle("About");
-			alert.setHeaderText(MetaInfo.TITLE + " " + MetaInfo.VERSION + " by " + MetaInfo.AUTHOR);
-			alert.setContentText(
-					"Email: " + MetaInfo.EMAIL + '\n' + "Repository: " + MetaInfo.REPOSITORY);
+			alert.setHeaderText(MetaInfo.TITLE + " " + MetaInfo.VERSION);
+			alert.setContentText("Written by " + MetaInfo.AUTHOR + '\n' + "Logo by "
+					+ MetaInfo.LOGO_ARTIST + '\n' + "Email: " + MetaInfo.EMAIL + '\n'
+					+ "Repository: " + MetaInfo.REPOSITORY);
 			alert.showAndWait();
 		});
 
@@ -258,39 +262,33 @@ public class MainWindow extends Application {
 		// =========================================================================================
 		// =========================================================================================
 
-        undo = new MenuItem("_Undo");
-        undo.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
-        undo.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                if (game.undo())
-                {
-                    refresh();
-                }
-            }
-        });
+		undo = new MenuItem("_Undo");
+		undo.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
+		undo.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (game.undo()) {
+					refresh();
+				}
+			}
+		});
 
-        redo = new MenuItem("_Redo");
-        redo.setAccelerator(KeyCombination.keyCombination("Ctrl+Y"));
-        redo.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                if (game.redo())
-                {
-                    refresh();
-                }
-            }
-        });
+		redo = new MenuItem("_Redo");
+		redo.setAccelerator(KeyCombination.keyCombination("Ctrl+Y"));
+		redo.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (game.redo()) {
+					refresh();
+				}
+			}
+		});
 
-        Menu menuEdit = new Menu("_Edit", null, undo, redo);
+		Menu menuEdit = new Menu("_Edit", null, undo, redo);
 
-        // =========================================================================================
-        // =========================================================================================
-        // =========================================================================================
+		// =========================================================================================
+		// =========================================================================================
+		// =========================================================================================
 
 		MenuItem restart = new MenuItem("_New Game");
 		restart.setAccelerator(KeyCombination.keyCombination("F2"));
@@ -347,7 +345,7 @@ public class MainWindow extends Application {
 		// set status bar text
 		statusBar.setText("goats eaten: " + game.getGoatsEaten() + "    goats left to set: "
 				+ game.getGoatsLeftToSet() + "    State: " + game.getState().toString());
-		
+
 		// refresh undo and redo
 		undo.setDisable(!game.isAnyUndoLeft());
 		redo.setDisable(!game.isAnyRedoLeft());
