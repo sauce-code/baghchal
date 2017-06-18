@@ -32,6 +32,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.BaghChal;
+import model.interfaces.BaghChalI;
 import model.interfaces.Player;
 import model.interfaces.Selection;
 
@@ -118,10 +119,10 @@ public class MainWindow extends Application {
 		grid.setPadding(new Insets(13.0, 0.0, 0.0, 13.0));
 		grid.setAlignment(Pos.CENTER);
 		grid.setGridLinesVisible(false);
-		tiles = new Circle[BaghChal.DIM][BaghChal.DIM];
+		tiles = new Circle[BaghChalI.DIM][BaghChalI.DIM];
 
-		for (int x = 0; x < BaghChal.DIM; x++) {
-			for (int y = 0; y < BaghChal.DIM; y++) {
+		for (int x = 0; x < BaghChalI.DIM; x++) {
+			for (int y = 0; y < BaghChalI.DIM; y++) {
 				final int xPos = x;
 				final int yPos = y;
 				Circle c = new Circle(28.0);
@@ -142,7 +143,7 @@ public class MainWindow extends Application {
 
 		Group group = new Group();
 
-		for (int x = 0; x < BaghChal.DIM; x++) {
+		for (int x = 0; x < BaghChalI.DIM; x++) {
 			Line line = new Line();
 			line.setStrokeWidth(4.0);
 			line.startXProperty().bind(tiles[x][0].layoutXProperty());
@@ -152,7 +153,7 @@ public class MainWindow extends Application {
 			group.getChildren().add(line);
 		}
 
-		for (int y = 0; y < BaghChal.DIM; y++) {
+		for (int y = 0; y < BaghChalI.DIM; y++) {
 			Line line = new Line();
 			line.setStrokeWidth(4.0);
 			line.startXProperty().bind(tiles[0][y].layoutXProperty());
@@ -329,8 +330,8 @@ public class MainWindow extends Application {
 		Player[][] board = game.getBoard();
 
 		// paint all tiles
-		for (int x = 0; x < BaghChal.DIM; x++) {
-			for (int y = 0; y < BaghChal.DIM; y++) {
+		for (int x = 0; x < BaghChalI.DIM; x++) {
+			for (int y = 0; y < BaghChalI.DIM; y++) {
 				tiles[x][y].setFill(colorsFill.get(board[x][y]));
 				tiles[x][y].setStroke(colorsStroke.get(board[x][y]));
 			}

@@ -49,7 +49,7 @@ public class Main {
 	private static int readRow() {
 		System.out.println("row:");
 		int row = readInt();
-		while (row < 0 || row >= BaghChal.DIM) {
+		while (row < 0 || row >= BaghChalI.DIM) {
 			System.out.println("invalid input");
 			row = readInt();
 		}
@@ -64,7 +64,7 @@ public class Main {
 	private static int readColumn() {
 		System.out.println("column:");
 		int row = readInt();
-		while (row < 0 || row >= BaghChal.DIM) {
+		while (row < 0 || row >= BaghChalI.DIM) {
 			System.out.println("invalid input");
 			row = readInt();
 		}
