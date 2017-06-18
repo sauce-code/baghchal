@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+
 import model.interfaces.BaghChalI;
 import model.interfaces.Player;
 import model.interfaces.Selection;
@@ -493,6 +495,49 @@ public class BaghChal implements BaghChalI {
 			throw new IllegalArgumentException(
 					"value has to be in range [ 0 ; " + DIM + " ), but was " + value);
 		}
+	}
+
+	@Override
+	/*
+	 * this method IGNORES fields previous and next
+	 */
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.deepHashCode(board);
+		result = prime * result + goatsEaten;
+		result = prime * result + goatsLeftToSet;
+		result = prime * result + ((selected == null) ? 0 : selected.hashCode());
+		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		return result;
+	}
+
+	@Override
+	/*
+	 * this method IGNORES fields previous and next
+	 */
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BaghChal other = (BaghChal) obj;
+		if (!Arrays.deepEquals(board, other.board))
+			return false;
+		if (goatsEaten != other.goatsEaten)
+			return false;
+		if (goatsLeftToSet != other.goatsLeftToSet)
+			return false;
+		if (selected == null) {
+			if (other.selected != null)
+				return false;
+		} else if (!selected.equals(other.selected))
+			return false;
+		if (state != other.state)
+			return false;
+		return true;
 	}
 
 }
