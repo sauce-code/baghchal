@@ -9,14 +9,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -32,7 +29,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import model.BaghChal;
 import model.interfaces.BaghChalI;
 import model.interfaces.BaghChalI.Selection;
@@ -98,7 +94,8 @@ public class MainWindow extends Application {
 	private MenuItem redo;
 
 	/**
-	 * Displays the text for current number of {@link BaghChal#getGoatsLeftToSet()} on {@link #game}.
+	 * Displays the text for current number of {@link BaghChal#getGoatsLeftToSet()} on
+	 * {@link #game}.
 	 */
 	private Text goatsLeftToSet;
 
@@ -236,30 +233,15 @@ public class MainWindow extends Application {
 	private MenuBar initMenuBar() {
 
 		// =========================================================================================
-		// === HELP MENU ===========================================================================
+		// ==== HELP MENU ==========================================================================
 		// =========================================================================================
 
 		MenuItem rules = new MenuItem("_Rules");
-		rules.setOnAction(e -> {
-			getHostServices().showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules");
-		});
+		rules.setOnAction(e -> getHostServices()
+				.showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules"));
 
 		MenuItem about = new MenuItem("A_bout");
-
-		about.setOnAction(e -> {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			ImageView image = new ImageView(icon);
-			image.setFitWidth(100.0);
-			image.setFitHeight(100.0);
-			alert.setGraphic(image);
-			alert.initStyle(StageStyle.UTILITY);
-			alert.setTitle("About");
-			alert.setHeaderText(MetaInfo.TITLE + " " + MetaInfo.VERSION);
-			alert.setContentText("Written by " + MetaInfo.AUTHOR + '\n' + "Logo by "
-					+ MetaInfo.LOGO_ARTIST + '\n' + "Email: " + MetaInfo.EMAIL + '\n'
-					+ "Repository: " + MetaInfo.REPOSITORY);
-			alert.showAndWait();
-		});
+		about.setOnAction(e -> new AboutAlert(icon).showAndWait());
 
 		Menu menuHelp = new Menu("_Help", null, rules, new SeparatorMenuItem(), about);
 
