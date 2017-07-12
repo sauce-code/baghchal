@@ -15,8 +15,8 @@ public class StateStringMap extends HashMap<State, String> {
 	/**
 	 * Serial Version UID.
 	 */
-	private static final long serialVersionUID = 6356717555055526293L;
-	
+	private static final long serialVersionUID = -5119151295623501069L;
+
 	/**
 	 * Creates a new State String Map.
 	 */
@@ -25,10 +25,10 @@ public class StateStringMap extends HashMap<State, String> {
 		put(State.GOAT_MOVE, "goat's turn");
 		put(State.GOAT_SELECT, "goat's turn");
 		put(State.GOAT_SET, "goat's turn");
-		put(State.GOAT_WON, "goats won!");
+		put(State.GOAT_WON, "goat won!");
 		put(State.TIGER_MOVE, "tiger's turn");
 		put(State.TIGER_SELECT, "tiger's turn");
-		put(State.TIGER_WON, "tigers won!");
+		put(State.TIGER_WON, "tiger won!");
 	}
 
 }
