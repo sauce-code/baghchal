@@ -445,7 +445,7 @@ public class MainWindow extends Application {
 		BorderPane border = new BorderPane(vBox);
 		border.setTop(initMenuBar());
 
-		border.setBottom(statusBar);
+//		border.setBottom(statusBar);
 
 		Scene scene = new Scene(border);
 		primaryStage.setTitle(MetaInfo.TITLE);
