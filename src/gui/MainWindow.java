@@ -1,9 +1,10 @@
 package gui;
 
-import java.util.HashMap;
-
 import org.controlsfx.control.StatusBar;
 
+import gui.maps.ColorFillMap;
+import gui.maps.ColorStrokeMap;
+import gui.maps.StateStringMap;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -80,17 +81,17 @@ public class MainWindow extends Application {
 	/**
 	 * Stores the colors used for filling pieces.
 	 */
-	private HashMap<Player, Color> colorsFill;
+	private ColorFillMap colorsFill = new ColorFillMap();
 
 	/**
 	 * Stores the colors used for strokes of the pieces.
 	 */
-	private HashMap<Player, Color> colorsStroke;
+	private ColorStrokeMap colorsStroke = new ColorStrokeMap();
 
 	/**
 	 * Stores the corresponding Strings for each {@link State}.
 	 */
-	private HashMap<State, String> stateStrings;
+	private StateStringMap stateStrings = new StateStringMap();
 
 	/**
 	 * The color being used for strokes of selected pieces.
@@ -126,24 +127,24 @@ public class MainWindow extends Application {
 	 * Initializes the maps.
 	 */
 	private void initMaps() {
-		colorsFill = new HashMap<Player, Color>();
-		colorsFill.put(Player.NONE, Color.TRANSPARENT);
-		colorsFill.put(Player.GOAT, Color.WHITE);
-		colorsFill.put(Player.TIGER, Color.GRAY);
+//		colorsFill = new HashMap<Player, Color>();
+//		colorsFill.put(Player.NONE, Color.TRANSPARENT);
+//		colorsFill.put(Player.GOAT, Color.WHITE);
+//		colorsFill.put(Player.TIGER, Color.GRAY);
 
-		colorsStroke = new HashMap<Player, Color>();
-		colorsStroke.put(Player.NONE, Color.TRANSPARENT);
-		colorsStroke.put(Player.GOAT, Color.BLACK);
-		colorsStroke.put(Player.TIGER, Color.BLACK);
+//		colorsStroke = new HashMap<Player, Color>();
+//		colorsStroke.put(Player.NONE, Color.TRANSPARENT);
+//		colorsStroke.put(Player.GOAT, Color.BLACK);
+//		colorsStroke.put(Player.TIGER, Color.BLACK);
 
-		stateStrings = new HashMap<State, String>();
-		stateStrings.put(State.GOAT_MOVE, "goat's turn");
-		stateStrings.put(State.GOAT_SELECT, "goat's turn");
-		stateStrings.put(State.GOAT_SET, "goat's turn");
-		stateStrings.put(State.GOAT_WON, "goats won!");
-		stateStrings.put(State.TIGER_MOVE, "tiger's turn");
-		stateStrings.put(State.TIGER_SELECT, "tiger's turn");
-		stateStrings.put(State.TIGER_WON, "tigers won!");
+//		stateStrings = new HashMap<State, String>();
+//		stateStrings.put(State.GOAT_MOVE, "goat's turn");
+//		stateStrings.put(State.GOAT_SELECT, "goat's turn");
+//		stateStrings.put(State.GOAT_SET, "goat's turn");
+//		stateStrings.put(State.GOAT_WON, "goats won!");
+//		stateStrings.put(State.TIGER_MOVE, "tiger's turn");
+//		stateStrings.put(State.TIGER_SELECT, "tiger's turn");
+//		stateStrings.put(State.TIGER_WON, "tigers won!");
 	}
 
 	/**
