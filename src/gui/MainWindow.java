@@ -1,14 +1,10 @@
 package gui;
 
-import org.controlsfx.control.StatusBar;
-
 import gui.maps.ColorFillMap;
 import gui.maps.ColorStrokeMap;
 import gui.maps.StateStringMap;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -23,7 +19,6 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -62,11 +57,6 @@ public class MainWindow extends Application {
 	 * The icon used for this program.
 	 */
 	private Image icon = new Image(PATH_ICON);
-
-	/**
-	 * The statusbar at the bottom of this scene, showing useful information.
-	 */
-	private StatusBar statusBar;
 
 	/**
 	 * The instance of the Bagh Chal game.
@@ -130,7 +120,7 @@ public class MainWindow extends Application {
 	 */
 	private Node initBoard() {
 		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(13.0, 0.0, 0.0, 13.0));
+		grid.setPadding(new Insets(4.0, 0.0, 0.0, 12.0));
 		grid.setAlignment(Pos.CENTER);
 		grid.setGridLinesVisible(false);
 		tiles = new Circle[BaghChalI.DIM][BaghChalI.DIM];
@@ -383,13 +373,9 @@ public class MainWindow extends Application {
 		}
 
 		// set texts
-		goatsLeftToSet.setText("gaots left to set: " + game.getGoatsLeftToSet());
+		goatsLeftToSet.setText("goats left to set: " + game.getGoatsLeftToSet());
 		goatsEaten.setText("Goats eaten: " + game.getGoatsEaten());
 		state.setText(stateStrings.get(game.getState()));
-
-		// set status bar text
-		statusBar.setText("goats eaten: " + game.getGoatsEaten() + "    goats left to set: "
-				+ game.getGoatsLeftToSet() + "    State: " + game.getState().toString());
 
 		// refresh undo and redo
 		undo.setDisable(!game.isAnyUndoLeft());
@@ -399,12 +385,9 @@ public class MainWindow extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		VBox vBox = new VBox(initScoreboard(), initBoard());
-		statusBar = new StatusBar();
 
 		BorderPane border = new BorderPane(vBox);
 		border.setTop(initMenuBar());
-
-		// border.setBottom(statusBar);
 
 		Scene scene = new Scene(border);
 		primaryStage.setTitle(MetaInfo.TITLE);
