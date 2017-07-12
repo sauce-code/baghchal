@@ -35,9 +35,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.BaghChal;
 import model.interfaces.BaghChalI;
+import model.interfaces.BaghChalI.Selection;
 import model.interfaces.BaghChalI.State;
 import model.interfaces.Player;
-import model.interfaces.Selection;
 
 /**
  * A simple GUI, running an instance of {@link BaghChal}.
