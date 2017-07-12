@@ -141,12 +141,9 @@ public class MainWindow extends Application {
 				final int yPos = y;
 				Circle c = new Circle(28.0);
 				c.setStrokeWidth(3.0);
-				c.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						if (game.action(xPos, yPos)) {
-							refresh();
-						}
+				c.setOnMouseClicked(e -> {
+					if (game.action(xPos, yPos)) {
+						refresh();
 					}
 				});
 				grid.add(c, x, y);
@@ -279,23 +276,17 @@ public class MainWindow extends Application {
 
 		undo = new MenuItem("_Undo");
 		undo.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
-		undo.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (game.undo()) {
-					refresh();
-				}
+		undo.setOnAction(e -> {
+			if (game.undo()) {
+				refresh();
 			}
 		});
 
 		redo = new MenuItem("_Redo");
 		redo.setAccelerator(KeyCombination.keyCombination("Ctrl+Y"));
-		redo.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (game.redo()) {
-					refresh();
-				}
+		redo.setOnAction(e -> {
+			if (game.redo()) {
+				refresh();
 			}
 		});
 
@@ -307,22 +298,14 @@ public class MainWindow extends Application {
 
 		MenuItem restart = new MenuItem("_New Game");
 		restart.setAccelerator(KeyCombination.keyCombination("F2"));
-		restart.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				game = new BaghChal();
-				refresh();
-			}
+		restart.setOnAction(e -> {
+			game = new BaghChal();
+			refresh();
 		});
 
 		MenuItem exit = new MenuItem("E_xit");
 		exit.setAccelerator(KeyCombination.keyCombination("Alt+F4"));
-		exit.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				Platform.exit();
-			}
-		});
+		exit.setOnAction(e -> Platform.exit());
 
 		Menu menuFile = new Menu("_File", null, restart, new SeparatorMenuItem(), exit);
 
@@ -345,23 +328,23 @@ public class MainWindow extends Application {
 		BorderPane box1 = new BorderPane(goatsLeftToSet);
 		// box1.setPrefSize(400.0, 50.0);
 		// box1.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-//		box1.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-//				CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		// box1.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+		// CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
 		goatsEaten = new Text("Goats eaten: " + game.getGoatsEaten());
 		goatsEaten.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 20.0));
 		BorderPane box2 = new BorderPane(goatsEaten);
 		// box2.setPrefSize(400.0, 50.0);
 		// box2.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-//		box2.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-//				CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-		
+		// box2.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+		// CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
 		HBox box0 = new HBox(box1, box2);
 		box0.setPadding(new Insets(6.0, 0.0, 0.0, 0.0));
 		HBox.setHgrow(box1, Priority.ALWAYS);
 		HBox.setHgrow(box2, Priority.ALWAYS);
-//		box0.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-//				CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		// box0.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+		// CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
 		state = new Text(stateStrings.get(game.getState()));
 		state.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 25.0));
@@ -369,11 +352,12 @@ public class MainWindow extends Application {
 		box3.setPadding(new Insets(2.0, 0.0, 0.0, 0.0));
 		// box3.setPrefSize(400.0, 50.0);
 		// box3.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-//		box3.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-//				CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+		// box3.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+		// CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
 		VBox scoreboard = new VBox(box0, box3);
-//		scoreboard.setBorder(new Border(new BorderStroke(null, null, Color.BLACK, null, null, null, BorderStrokeStyle.SOLID, null, CornerRadii.EMPTY, new BorderWidths(4.0), null)));
+		// scoreboard.setBorder(new Border(new BorderStroke(null, null, Color.BLACK, null, null,
+		// null, BorderStrokeStyle.SOLID, null, CornerRadii.EMPTY, new BorderWidths(4.0), null)));
 		return new VBox(scoreboard);
 	}
 
@@ -420,7 +404,7 @@ public class MainWindow extends Application {
 		BorderPane border = new BorderPane(vBox);
 		border.setTop(initMenuBar());
 
-//		border.setBottom(statusBar);
+		// border.setBottom(statusBar);
 
 		Scene scene = new Scene(border);
 		primaryStage.setTitle(MetaInfo.TITLE);
