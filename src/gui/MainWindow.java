@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -118,7 +117,7 @@ public class MainWindow extends Application {
 	 * 
 	 * @return the initialized board
 	 */
-	private Node initBoard() {
+	private Group initBoard() {
 		GridPane grid = new GridPane();
 		grid.setPadding(new Insets(4.0, 0.0, 0.0, 12.0));
 		grid.setAlignment(Pos.CENTER);
@@ -236,6 +235,10 @@ public class MainWindow extends Application {
 	 */
 	private MenuBar initMenuBar() {
 
+		// =========================================================================================
+		// === HELP MENU ===========================================================================
+		// =========================================================================================
+
 		MenuItem rules = new MenuItem("_Rules");
 		rules.setOnAction(e -> {
 			getHostServices().showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules");
@@ -261,7 +264,7 @@ public class MainWindow extends Application {
 		Menu menuHelp = new Menu("_Help", null, rules, new SeparatorMenuItem(), about);
 
 		// =========================================================================================
-		// =========================================================================================
+		// ====== EDIT MENU ========================================================================
 		// =========================================================================================
 
 		undo = new MenuItem("_Undo");
@@ -283,7 +286,7 @@ public class MainWindow extends Application {
 		Menu menuEdit = new Menu("_Edit", null, undo, redo);
 
 		// =========================================================================================
-		// =========================================================================================
+		// ======= FILE MENU =======================================================================
 		// =========================================================================================
 
 		MenuItem restart = new MenuItem("_New Game");
@@ -300,7 +303,7 @@ public class MainWindow extends Application {
 		Menu menuFile = new Menu("_File", null, restart, new SeparatorMenuItem(), exit);
 
 		// =========================================================================================
-		// =========================================================================================
+		// ======= BUILDING MENUBAR ================================================================
 		// =========================================================================================
 
 		MenuBar ret = new MenuBar(menuFile, menuEdit, menuHelp);
@@ -310,45 +313,27 @@ public class MainWindow extends Application {
 	}
 
 	private VBox initScoreboard() {
-		// scoreBoard.setPrefWidth(200);
 
-		goatsLeftToSet = new Text("Goats left to set: " + game.getGoatsLeftToSet());
+		goatsLeftToSet = new Text();
 		goatsLeftToSet.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 20.0));
 		goatsLeftToSet.setTextAlignment(TextAlignment.CENTER);
 		BorderPane box1 = new BorderPane(goatsLeftToSet);
-		// box1.setPrefSize(400.0, 50.0);
-		// box1.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-		// box1.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-		// CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-		goatsEaten = new Text("Goats eaten: " + game.getGoatsEaten());
+		goatsEaten = new Text();
 		goatsEaten.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 20.0));
 		BorderPane box2 = new BorderPane(goatsEaten);
-		// box2.setPrefSize(400.0, 50.0);
-		// box2.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-		// box2.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-		// CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
 		HBox box0 = new HBox(box1, box2);
 		box0.setPadding(new Insets(6.0, 0.0, 0.0, 0.0));
 		HBox.setHgrow(box1, Priority.ALWAYS);
 		HBox.setHgrow(box2, Priority.ALWAYS);
-		// box0.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-		// CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
 		state = new Text(stateStrings.get(game.getState()));
 		state.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 25.0));
 		BorderPane box3 = new BorderPane(state);
 		box3.setPadding(new Insets(2.0, 0.0, 0.0, 0.0));
-		// box3.setPrefSize(400.0, 50.0);
-		// box3.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-		// box3.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
-		// CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-		VBox scoreboard = new VBox(box0, box3);
-		// scoreboard.setBorder(new Border(new BorderStroke(null, null, Color.BLACK, null, null,
-		// null, BorderStrokeStyle.SOLID, null, CornerRadii.EMPTY, new BorderWidths(4.0), null)));
-		return new VBox(scoreboard);
+		return new VBox(new VBox(box0, box3));
 	}
 
 	/**
@@ -374,7 +359,7 @@ public class MainWindow extends Application {
 
 		// set texts
 		goatsLeftToSet.setText("goats left to set: " + game.getGoatsLeftToSet());
-		goatsEaten.setText("Goats eaten: " + game.getGoatsEaten());
+		goatsEaten.setText("goats eaten: " + game.getGoatsEaten());
 		state.setText(stateStrings.get(game.getState()));
 
 		// refresh undo and redo
@@ -394,7 +379,9 @@ public class MainWindow extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.getIcons().add(icon);
+
 		refresh();
+
 		primaryStage.show();
 	}
 
