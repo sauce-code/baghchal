@@ -98,7 +98,7 @@ public class MainWindow extends Application {
 	private MenuItem redo;
 
 	/**
-	 * Displays the text for current number of {@link BaghChal#getGoatsLeftToSet() on {@link #game}.
+	 * Displays the text for current number of {@link BaghChal#getGoatsLeftToSet()} on {@link #game}.
 	 */
 	private Text goatsLeftToSet;
 
@@ -108,7 +108,7 @@ public class MainWindow extends Application {
 	private Text goatsEaten;
 
 	/**
-	 * Displays the text for current {@link BaghChal#getState()() on {@link #game}.
+	 * Displays the text for current {@link BaghChal#getState()} on {@link #game}.
 	 */
 	private Text state;
 
