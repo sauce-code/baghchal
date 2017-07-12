@@ -312,6 +312,11 @@ public class MainWindow extends Application {
 		return ret;
 	}
 
+	/**
+	 * Initializes the scoreboard and returns it.
+	 * 
+	 * @return initialzied scoreboard
+	 */
 	private VBox initScoreboard() {
 
 		goatsLeftToSet = new Text();
