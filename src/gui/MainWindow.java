@@ -124,30 +124,6 @@ public class MainWindow extends Application {
 	private Text state;
 
 	/**
-	 * Initializes the maps.
-	 */
-	private void initMaps() {
-//		colorsFill = new HashMap<Player, Color>();
-//		colorsFill.put(Player.NONE, Color.TRANSPARENT);
-//		colorsFill.put(Player.GOAT, Color.WHITE);
-//		colorsFill.put(Player.TIGER, Color.GRAY);
-
-//		colorsStroke = new HashMap<Player, Color>();
-//		colorsStroke.put(Player.NONE, Color.TRANSPARENT);
-//		colorsStroke.put(Player.GOAT, Color.BLACK);
-//		colorsStroke.put(Player.TIGER, Color.BLACK);
-
-//		stateStrings = new HashMap<State, String>();
-//		stateStrings.put(State.GOAT_MOVE, "goat's turn");
-//		stateStrings.put(State.GOAT_SELECT, "goat's turn");
-//		stateStrings.put(State.GOAT_SET, "goat's turn");
-//		stateStrings.put(State.GOAT_WON, "goats won!");
-//		stateStrings.put(State.TIGER_MOVE, "tiger's turn");
-//		stateStrings.put(State.TIGER_SELECT, "tiger's turn");
-//		stateStrings.put(State.TIGER_WON, "tigers won!");
-	}
-
-	/**
 	 * Initializes the board and returns it.
 	 * 
 	 * @return the initialized board
@@ -438,8 +414,6 @@ public class MainWindow extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		initMaps();
-
 		VBox vBox = new VBox(initScoreboard(), initBoard());
 		statusBar = new StatusBar();
 
