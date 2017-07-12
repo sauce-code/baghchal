@@ -247,7 +247,7 @@ public class MainWindow extends Application {
 	 * 
 	 * @return the initialized menubar
 	 */
-	private Node initMenuBar() {
+	private MenuBar initMenuBar() {
 
 		MenuItem rules = new MenuItem("_Rules");
 		rules.setOnAction(e -> {
