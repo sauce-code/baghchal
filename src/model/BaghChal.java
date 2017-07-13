@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import model.interfaces.BaghChalI;
 import model.interfaces.Player;
-import model.interfaces.Selection;
 
 /**
  * Implementation of {@link model.interfaces.BaghChalI}.

@@ -26,7 +26,7 @@ public class MetaInfo {
 	/**
 	 * The email address.
 	 */
-	public static final String EMAIL = "mail" + '@' + "sauce-code.com";
+	public static final String EMAIL = "mail" + '@' + "sauce-code" + '.' + "com";
 
 	/**
 	 * The repository, where you can find this project.

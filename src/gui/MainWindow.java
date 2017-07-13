@@ -1,40 +1,39 @@
 package gui;
 
-import java.util.HashMap;
-
-import org.controlsfx.control.StatusBar;
-
+import gui.maps.ColorFillMap;
+import gui.maps.ColorStrokeMap;
+import gui.maps.StateStringMap;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import model.BaghChal;
 import model.interfaces.BaghChalI;
+import model.interfaces.BaghChalI.Selection;
+import model.interfaces.BaghChalI.State;
 import model.interfaces.Player;
-import model.interfaces.Selection;
 
 /**
  * A simple GUI, running an instance of {@link BaghChal}.
@@ -55,11 +54,6 @@ public class MainWindow extends Application {
 	private Image icon = new Image(PATH_ICON);
 
 	/**
-	 * The statusbar at the bottom of this scene, showing useful information.
-	 */
-	private StatusBar statusBar;
-
-	/**
 	 * The instance of the Bagh Chal game.
 	 */
 	private BaghChal game = new BaghChal();
@@ -72,12 +66,17 @@ public class MainWindow extends Application {
 	/**
 	 * Stores the colors used for filling pieces.
 	 */
-	private HashMap<Player, Color> colorsFill;
+	private ColorFillMap colorsFill = new ColorFillMap();
 
 	/**
 	 * Stores the colors used for strokes of the pieces.
 	 */
-	private HashMap<Player, Color> colorsStroke;
+	private ColorStrokeMap colorsStroke = new ColorStrokeMap();
+
+	/**
+	 * Stores the corresponding Strings for each {@link State}.
+	 */
+	private StateStringMap stateStrings = new StateStringMap();
 
 	/**
 	 * The color being used for strokes of selected pieces.
@@ -95,28 +94,29 @@ public class MainWindow extends Application {
 	private MenuItem redo;
 
 	/**
-	 * Initializes the color maps.
+	 * Displays the text for current number of {@link BaghChal#getGoatsLeftToSet()} on
+	 * {@link #game}.
 	 */
-	private void initColorMaps() {
-		colorsFill = new HashMap<Player, Color>();
-		colorsFill.put(Player.NONE, Color.TRANSPARENT);
-		colorsFill.put(Player.GOAT, Color.WHITE);
-		colorsFill.put(Player.TIGER, Color.GRAY);
+	private Text goatsLeftToSet;
 
-		colorsStroke = new HashMap<Player, Color>();
-		colorsStroke.put(Player.NONE, Color.TRANSPARENT);
-		colorsStroke.put(Player.GOAT, Color.BLACK);
-		colorsStroke.put(Player.TIGER, Color.BLACK);
-	}
+	/**
+	 * Displays the text for current number of {@link BaghChal#getGoatsEaten()} on {@link #game}.
+	 */
+	private Text goatsEaten;
+
+	/**
+	 * Displays the text for current {@link BaghChal#getState()} on {@link #game}.
+	 */
+	private Text state;
 
 	/**
 	 * Initializes the board and returns it.
 	 * 
 	 * @return the initialized board
 	 */
-	private Node initBoard() {
+	private Group initBoard() {
 		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(13.0, 0.0, 0.0, 13.0));
+		grid.setPadding(new Insets(4.0, 0.0, 0.0, 12.0));
 		grid.setAlignment(Pos.CENTER);
 		grid.setGridLinesVisible(false);
 		tiles = new Circle[BaghChalI.DIM][BaghChalI.DIM];
@@ -127,12 +127,9 @@ public class MainWindow extends Application {
 				final int yPos = y;
 				Circle c = new Circle(28.0);
 				c.setStrokeWidth(3.0);
-				c.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						if (game.action(xPos, yPos)) {
-							refresh();
-						}
+				c.setOnMouseClicked(e -> {
+					if (game.action(xPos, yPos)) {
+						refresh();
 					}
 				});
 				grid.add(c, x, y);
@@ -233,93 +230,97 @@ public class MainWindow extends Application {
 	 * 
 	 * @return the initialized menubar
 	 */
-	private Node initMenuBar() {
+	private MenuBar initMenuBar() {
+
+		// =========================================================================================
+		// ==== HELP MENU ==========================================================================
+		// =========================================================================================
 
 		MenuItem rules = new MenuItem("_Rules");
-		rules.setOnAction(e -> {
-			getHostServices().showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules");
-		});
+		rules.setOnAction(e -> getHostServices()
+				.showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules"));
 
 		MenuItem about = new MenuItem("A_bout");
-
-		about.setOnAction(e -> {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			ImageView image = new ImageView(icon);
-			image.setFitWidth(100.0);
-			image.setFitHeight(100.0);
-			alert.setGraphic(image);
-			alert.initStyle(StageStyle.UTILITY);
-			alert.setTitle("About");
-			alert.setHeaderText(MetaInfo.TITLE + " " + MetaInfo.VERSION);
-			alert.setContentText("Written by " + MetaInfo.AUTHOR + '\n' + "Logo by "
-					+ MetaInfo.LOGO_ARTIST + '\n' + "Email: " + MetaInfo.EMAIL + '\n'
-					+ "Repository: " + MetaInfo.REPOSITORY);
-			alert.showAndWait();
-		});
+		about.setOnAction(e -> new AboutAlert(icon).showAndWait());
 
 		Menu menuHelp = new Menu("_Help", null, rules, new SeparatorMenuItem(), about);
 
 		// =========================================================================================
-		// =========================================================================================
+		// ====== EDIT MENU ========================================================================
 		// =========================================================================================
 
 		undo = new MenuItem("_Undo");
 		undo.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
-		undo.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (game.undo()) {
-					refresh();
-				}
+		undo.setOnAction(e -> {
+			if (game.undo()) {
+				refresh();
 			}
 		});
 
 		redo = new MenuItem("_Redo");
 		redo.setAccelerator(KeyCombination.keyCombination("Ctrl+Y"));
-		redo.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (game.redo()) {
-					refresh();
-				}
+		redo.setOnAction(e -> {
+			if (game.redo()) {
+				refresh();
 			}
 		});
 
 		Menu menuEdit = new Menu("_Edit", null, undo, redo);
 
 		// =========================================================================================
-		// =========================================================================================
+		// ======= FILE MENU =======================================================================
 		// =========================================================================================
 
 		MenuItem restart = new MenuItem("_New Game");
 		restart.setAccelerator(KeyCombination.keyCombination("F2"));
-		restart.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				game = new BaghChal();
-				refresh();
-			}
+		restart.setOnAction(e -> {
+			game = new BaghChal();
+			refresh();
 		});
 
 		MenuItem exit = new MenuItem("E_xit");
 		exit.setAccelerator(KeyCombination.keyCombination("Alt+F4"));
-		exit.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				Platform.exit();
-			}
-		});
+		exit.setOnAction(e -> Platform.exit());
 
 		Menu menuFile = new Menu("_File", null, restart, new SeparatorMenuItem(), exit);
 
 		// =========================================================================================
-		// =========================================================================================
+		// ======= BUILDING MENUBAR ================================================================
 		// =========================================================================================
 
 		MenuBar ret = new MenuBar(menuFile, menuEdit, menuHelp);
 		ret.setUseSystemMenuBar(true);
 		ret.useSystemMenuBarProperty().set(true);
 		return ret;
+	}
+
+	/**
+	 * Initializes the scoreboard and returns it.
+	 * 
+	 * @return initialzied scoreboard
+	 */
+	private VBox initScoreboard() {
+
+		goatsLeftToSet = new Text();
+		goatsLeftToSet.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 20.0));
+		goatsLeftToSet.setTextAlignment(TextAlignment.CENTER);
+		BorderPane box1 = new BorderPane(goatsLeftToSet);
+
+		goatsEaten = new Text();
+		goatsEaten.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 20.0));
+		BorderPane box2 = new BorderPane(goatsEaten);
+
+		HBox box0 = new HBox(box1, box2);
+		box0.setPadding(new Insets(6.0, 0.0, 0.0, 0.0));
+		HBox.setHgrow(box1, Priority.ALWAYS);
+		HBox.setHgrow(box2, Priority.ALWAYS);
+
+		state = new Text(stateStrings.get(game.getState()));
+		state.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 25.0));
+		BorderPane box3 = new BorderPane(state);
+		box3.setPadding(new Insets(2.0, 0.0, 0.0, 0.0));
+
+		return new VBox(new VBox(box0, box3));
 	}
 
 	/**
@@ -343,9 +344,10 @@ public class MainWindow extends Application {
 			tiles[selected.row][selected.column].setStroke(colorSelected);
 		}
 
-		// set status bar text
-		statusBar.setText("goats eaten: " + game.getGoatsEaten() + "    goats left to set: "
-				+ game.getGoatsLeftToSet() + "    State: " + game.getState().toString());
+		// set texts
+		goatsLeftToSet.setText("goats left to set: " + game.getGoatsLeftToSet());
+		goatsEaten.setText("goats eaten: " + game.getGoatsEaten());
+		state.setText(stateStrings.get(game.getState()));
 
 		// refresh undo and redo
 		undo.setDisable(!game.isAnyUndoLeft());
@@ -354,21 +356,19 @@ public class MainWindow extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		initColorMaps();
-
-		VBox vBox = new VBox(initBoard());
-		statusBar = new StatusBar();
+		VBox vBox = new VBox(initScoreboard(), initBoard());
 
 		BorderPane border = new BorderPane(vBox);
 		border.setTop(initMenuBar());
-		border.setBottom(statusBar);
 
 		Scene scene = new Scene(border);
 		primaryStage.setTitle(MetaInfo.TITLE);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.getIcons().add(icon);
+
 		refresh();
+
 		primaryStage.show();
 	}
 
