@@ -47,22 +47,32 @@ public class MainWindow extends Application {
 	/**
 	 * The path for the icon.
 	 */
-	private static final String PATH_ICON = "icon.png";
+	public static final String PATH_LOGO = "logo.png";
+
+	/**
+	 * The path for rules icon.
+	 */
+	public static final String PATH_ICON_RULES = "icon-rules.png";
 
 	/**
 	 * The path for undo icon.
 	 */
-	private static final String PATH_ICON_UNDO = "icon-undo.png";
+	public static final String PATH_ICON_UNDO = "icon-undo.png";
 
 	/**
 	 * The path for redo icon.
 	 */
-	private static final String PATH_ICON_REDO = "icon-redo.png";
+	public static final String PATH_ICON_REDO = "icon-redo.png";
 
 	/**
 	 * The icon used for this program.
 	 */
-	private Image icon = new Image(PATH_ICON);
+	private Image logo = new Image(PATH_LOGO);
+
+	/**
+	 * The rules icon.
+	 */
+	private Image iconRules = new Image(PATH_ICON_RULES);
 
 	/**
 	 * The undo icon.
@@ -257,12 +267,12 @@ public class MainWindow extends Application {
 		// ==== HELP MENU ==========================================================================
 		// =========================================================================================
 
-		MenuItem rules = new MenuItem("_Rules");
+		MenuItem rules = new MenuItem("_Rules", new ImageView(iconRules));
 		rules.setOnAction(e -> getHostServices()
 				.showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules"));
 
 		MenuItem about = new MenuItem("A_bout");
-		about.setOnAction(e -> new AboutAlert(icon).showAndWait());
+		about.setOnAction(e -> new AboutAlert(logo).showAndWait());
 
 		Menu menuHelp = new Menu("_Help", null, rules, new SeparatorMenuItem(), about);
 
@@ -386,7 +396,7 @@ public class MainWindow extends Application {
 		primaryStage.setTitle(MetaInfo.TITLE);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
-		primaryStage.getIcons().add(icon);
+		primaryStage.getIcons().add(logo);
 
 		refresh();
 
