@@ -32,7 +32,7 @@
 						<manifest>
 							<mainClass>gui.MainWindow</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<!-- <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> -->
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
 					</archive>
 					<descriptorRefs>
