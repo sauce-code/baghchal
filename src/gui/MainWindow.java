@@ -14,6 +14,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -49,9 +50,29 @@ public class MainWindow extends Application {
 	private static final String PATH_ICON = "icon.png";
 
 	/**
+	 * The path for undo icon.
+	 */
+	private static final String PATH_ICON_UNDO = "icon-undo.png";
+
+	/**
+	 * The path for redo icon.
+	 */
+	private static final String PATH_ICON_REDO = "icon-redo.png";
+
+	/**
 	 * The icon used for this program.
 	 */
 	private Image icon = new Image(PATH_ICON);
+
+	/**
+	 * The undo icon.
+	 */
+	private Image iconUndo = new Image(PATH_ICON_UNDO);
+
+	/**
+	 * The redo icon.
+	 */
+	private Image iconRedo = new Image(PATH_ICON_REDO);
 
 	/**
 	 * The instance of the Bagh Chal game.
@@ -249,7 +270,7 @@ public class MainWindow extends Application {
 		// ====== EDIT MENU ========================================================================
 		// =========================================================================================
 
-		undo = new MenuItem("_Undo");
+		undo = new MenuItem("_Undo", new ImageView(iconUndo));
 		undo.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
 		undo.setOnAction(e -> {
 			if (game.undo()) {
@@ -257,7 +278,7 @@ public class MainWindow extends Application {
 			}
 		});
 
-		redo = new MenuItem("_Redo");
+		redo = new MenuItem("_Redo", new ImageView(iconRedo));
 		redo.setAccelerator(KeyCombination.keyCombination("Ctrl+Y"));
 		redo.setOnAction(e -> {
 			if (game.redo()) {

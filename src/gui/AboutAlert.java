@@ -29,7 +29,8 @@ public class AboutAlert extends Alert {
 		setTitle("About");
 		setHeaderText(MetaInfo.TITLE + " " + MetaInfo.VERSION);
 		setContentText("Written by " + MetaInfo.AUTHOR + '\n' + "Logo by " + MetaInfo.LOGO_ARTIST
-				+ '\n' + "Email: " + MetaInfo.EMAIL + '\n' + "Repository: " + MetaInfo.REPOSITORY);
+				+ '\n' + "Email: " + MetaInfo.EMAIL + '\n' + "Repository: " + MetaInfo.REPOSITORY
+				+ '\n' + "Arrow Icons by Freepik from www.flaticon.com is licensed by CC 3.0");
 	}
 
 }
