@@ -1,95 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>baghchal</groupId>
+	<groupId>com.saucecode.baghchal</groupId>
 	<artifactId>baghchal</artifactId>
 	<version>v1.6-SNAPSHOT</version>
-	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>src</testSourceDirectory>
-		<resources>
-			<resource>
-				<directory>res</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-					<exclude>**/*.xcf</exclude>
-				</excludes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<source />
-					<target />
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>gui.MainWindow</mainClass>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id> <!-- this is used for inheritance merges -->
-						<phase>package</phase> <!-- bind to the packaging phase -->
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<packaging>pom</packaging>
+	<modules>
+		<module>baghchal-gui</module>
+		<module>baghchal-tui</module>
+		<module>baghchal-logic</module>
+	</modules>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
-		<dependency>
-			<groupId>javafx</groupId>
-			<artifactId>jfxrt</artifactId>
-			<version>${java.version}</version>
-			<scope>system</scope>
-			<systemPath>${java.home}/lib/ext/jfxrt.jar</systemPath>
-		</dependency>
 	</dependencies>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
-	<developers>
-		<developer>
-			<id>me</id>
-			<name>Torben Krüger</name>
-			<email>mail@sauce-code.com</email>
-			<url>http://www.sauce-code.com</url>
-			<timezone>UTC+01:00</timezone>
-		</developer>
-	</developers>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/*.xcf</exclude>
+				</excludes>
+			</resource>
+		</resources>
+	</build>
 </project>
