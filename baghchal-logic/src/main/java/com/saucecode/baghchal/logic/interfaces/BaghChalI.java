@@ -122,7 +122,7 @@ public interface BaghChalI {
 	/**
 	 * Redos the last undone action.
 	 * 
-	 * @return {@code true, if redo has been successful}
+	 * @return {@code true}, if redo has been successful
 	 * 
 	 * @since v1.2
 	 */
