@@ -14,7 +14,7 @@ import javafx.stage.StageStyle;
 public class AboutAlert extends Alert {
 
 	/**
-	 * Creates anew About Alert.
+	 * Creates a new About Alert.
 	 * 
 	 * @param logo
 	 *            the icon, which shall be used
