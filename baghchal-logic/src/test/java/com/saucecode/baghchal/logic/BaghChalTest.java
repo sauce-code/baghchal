@@ -61,7 +61,8 @@ public class BaghChalTest {
 	}
 
 	/**
-	 * Test method for {@link com.saucecode.baghchal.logic.BaghChal#action(int, int)}.
+	 * Test method for
+	 * {@link com.saucecode.baghchal.logic.BaghChal#action(int, int)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testAction1() {
@@ -70,7 +71,8 @@ public class BaghChalTest {
 	}
 
 	/**
-	 * Test method for {@link com.saucecode.baghchal.logic.BaghChal#action(int, int)}.
+	 * Test method for
+	 * {@link com.saucecode.baghchal.logic.BaghChal#action(int, int)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testAction2() {
@@ -79,13 +81,14 @@ public class BaghChalTest {
 	}
 
 	/**
-	 * Test method for {@link com.saucecode.baghchal.logic.BaghChal#action(int, int)}.
+	 * Test method for
+	 * {@link com.saucecode.baghchal.logic.BaghChal#action(int, int)}.
 	 */
 	@Test
 	public void testAction3() {
 		BaghChal game = new BaghChal();
 		game.action(2, 2);
-		
+
 		assertNotNull(game);
 		assertEquals(State.TIGER_SELECT, game.getState());
 		assertEquals(0, game.getGoatsEaten());
@@ -158,7 +161,7 @@ public class BaghChalTest {
 		BaghChal clone = game.clone();
 		assertEquals(game, clone);
 	}
-	
+
 	/**
 	 * Test method for {@link com.saucecode.baghchal.logic.BaghChal#clone()}.
 	 */
@@ -169,7 +172,7 @@ public class BaghChalTest {
 		game.action(2, 2);
 		assertNotEquals(game, clone);
 	}
-	
+
 	/**
 	 * Test method for {@link com.saucecode.baghchal.logic.BaghChal#clone()}.
 	 */

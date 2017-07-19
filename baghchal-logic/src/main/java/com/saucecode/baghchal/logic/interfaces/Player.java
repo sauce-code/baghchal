@@ -27,7 +27,7 @@ public enum Player {
 	 * Returns the opponent.
 	 * 
 	 * @return
-	 * 		<ul>
+	 *         <ul>
 	 *         <li>{@link #TIGER}, if {@code this} is {@link #GOAT}</li>
 	 *         <li>{@link #GOAT}, if {@code this} is {@link #TIGER}</li>
 	 *         <li>{@link #NONE}, if {@code this} is {@link #NONE}</li>

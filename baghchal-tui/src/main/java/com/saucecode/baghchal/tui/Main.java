@@ -25,7 +25,7 @@ public class Main {
 	 * Reads an int from the console.
 	 * 
 	 * @return
-	 * 		<ul>
+	 *         <ul>
 	 *         <li>int from the console</li>
 	 *         <li>{@code -1}, if <b>any</b> error occurs</li>
 	 *         </ul>

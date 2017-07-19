@@ -1,9 +1,9 @@
 package com.saucecode.baghchal.logic.interfaces;
 
 /**
- * Interface for a Bagh Chal game model. See
- * <a href="https://en.wikipedia.org/wiki/Bagh-Chal">https://en.wikipedia.org/wiki/Bagh-Chal</a> for
- * more information.
+ * Interface for a Bagh Chal game model. See <a href=
+ * "https://en.wikipedia.org/wiki/Bagh-Chal">https://en.wikipedia.org/wiki/Bagh-Chal</a>
+ * for more information.
  * 
  * @since v1.0
  * 
@@ -61,14 +61,19 @@ public interface BaghChalI {
 	public int getGoatsLeftToSet();
 
 	/**
-	 * Performs an action. This method's behavior depends on its current state, see
-	 * {@link #getState()}.
+	 * Performs an action. This method's behavior depends on its current state,
+	 * see {@link #getState()}.
 	 * <ul>
-	 * <li>{@link State#GOAT_SET}: sets a goat on tile {@code row} / {@code column}</li>
-	 * <li>{@link State#GOAT_SELECT}: selects tile {@code row} / {@code column}</li>
-	 * <li>{@link State#GOAT_MOVE}: moves the selected goat to {@code row} / {@code column}</li>
-	 * <li>{@link State#TIGER_SELECT}: selects tile {@code row} / {@code column}</li>
-	 * <li>{@link State#TIGER_MOVE}: moves the selected tiger to {@code row} / {@code column}</li>
+	 * <li>{@link State#GOAT_SET}: sets a goat on tile {@code row} /
+	 * {@code column}</li>
+	 * <li>{@link State#GOAT_SELECT}: selects tile {@code row} /
+	 * {@code column}</li>
+	 * <li>{@link State#GOAT_MOVE}: moves the selected goat to {@code row} /
+	 * {@code column}</li>
+	 * <li>{@link State#TIGER_SELECT}: selects tile {@code row} /
+	 * {@code column}</li>
+	 * <li>{@link State#TIGER_MOVE}: moves the selected tiger to {@code row} /
+	 * {@code column}</li>
 	 * <li>any other {@link State}: no action will take place</li>
 	 * </ul>
 	 * 
@@ -78,8 +83,8 @@ public interface BaghChalI {
 	 *            column used for this action
 	 * @return {@code true}, if this action has been successful
 	 * @throws IllegalArgumentException
-	 *             if {@code row} or {@code column} are smaller than {@code 0} or greater equals
-	 *             than {@link BaghChalI#DIM}
+	 *             if {@code row} or {@code column} are smaller than {@code 0}
+	 *             or greater equals than {@link BaghChalI#DIM}
 	 * 
 	 * @since v1.0
 	 */
@@ -99,7 +104,8 @@ public interface BaghChalI {
 	public Selection getSelection();
 
 	/**
-	 * Returns the current {@link State}. This method will never return {@code null}.
+	 * Returns the current {@link State}. This method will never return
+	 * {@code null}.
 	 * 
 	 * @return current {@link State}
 	 * 
@@ -108,8 +114,9 @@ public interface BaghChalI {
 	public State getState();
 
 	/**
-	 * Undos the last action. Ignores selections, so the resulting {@link State} will always be
-	 * {@link State#GOAT_SET}, {@link State#GOAT_SELECT} or {@link State#TIGER_SELECT}.
+	 * Undos the last action. Ignores selections, so the resulting {@link State}
+	 * will always be {@link State#GOAT_SET}, {@link State#GOAT_SELECT} or
+	 * {@link State#TIGER_SELECT}.
 	 * 
 	 * @return {@code true}, if undo has been successful
 	 * 
@@ -163,7 +170,8 @@ public interface BaghChalI {
 
 		/**
 		 * It's goat player's turn. There are goats left to set, see
-		 * {@link BaghChalI#getGoatsLeftToSet()}. His task is to place a goat on a free field.
+		 * {@link BaghChalI#getGoatsLeftToSet()}. His task is to place a goat on
+		 * a free field.
 		 */
 		GOAT_SET,
 
@@ -173,20 +181,21 @@ public interface BaghChalI {
 		TIGER_SELECT,
 
 		/**
-		 * It's tiger player's turn. His task is to move the selected tiger. He may also select
-		 * another tiger or unselect the selected tiger.
+		 * It's tiger player's turn. His task is to move the selected tiger. He
+		 * may also select another tiger or unselect the selected tiger.
 		 */
 		TIGER_MOVE,
 
 		/**
 		 * It's goat player's turn. There are no goats left to set, see
-		 * {@link BaghChalI#getGoatsLeftToSet()}. His task is to select a goat to move.
+		 * {@link BaghChalI#getGoatsLeftToSet()}. His task is to select a goat
+		 * to move.
 		 */
 		GOAT_SELECT,
 
 		/**
-		 * It's goat player's turn. His task is to move the selected goat. He may also select
-		 * another goat or unselect the selected goat.
+		 * It's goat player's turn. His task is to move the selected goat. He
+		 * may also select another goat or unselect the selected goat.
 		 */
 		GOAT_MOVE,
 

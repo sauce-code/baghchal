@@ -28,5 +28,5 @@ public class ColorStrokeMap extends HashMap<Player, Color> {
 		put(Player.GOAT, Color.BLACK);
 		put(Player.TIGER, Color.BLACK);
 	}
-	
+
 }

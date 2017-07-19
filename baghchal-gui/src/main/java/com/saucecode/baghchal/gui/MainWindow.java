@@ -46,44 +46,24 @@ import javafx.stage.Stage;
 public class MainWindow extends Application {
 
 	/**
-	 * The path for the icon.
-	 */
-	public static final String PATH_LOGO = "logo.png";
-
-	/**
-	 * The path for rules icon.
-	 */
-	public static final String PATH_ICON_RULES = "icon-rules.png";
-
-	/**
-	 * The path for undo icon.
-	 */
-	public static final String PATH_ICON_UNDO = "icon-undo.png";
-
-	/**
-	 * The path for redo icon.
-	 */
-	public static final String PATH_ICON_REDO = "icon-redo.png";
-
-	/**
 	 * The icon used for this program.
 	 */
-	private Image logo = new Image(PATH_LOGO);
+	private Image logo = new Image(Paths.LOGO);
 
 	/**
 	 * The rules icon.
 	 */
-	private Image iconRules = new Image(PATH_ICON_RULES);
+	private Image iconRules = new Image(Paths.ICON_RULES);
 
 	/**
 	 * The undo icon.
 	 */
-	private Image iconUndo = new Image(PATH_ICON_UNDO);
+	private Image iconUndo = new Image(Paths.ICON_UNDO);
 
 	/**
 	 * The redo icon.
 	 */
-	private Image iconRedo = new Image(PATH_ICON_REDO);
+	private Image iconRedo = new Image(Paths.ICON_REDO);
 
 	/**
 	 * The instance of the Bagh Chal game.
@@ -126,18 +106,20 @@ public class MainWindow extends Application {
 	private MenuItem redo;
 
 	/**
-	 * Displays the text for current number of {@link BaghChal#getGoatsLeftToSet()} on
-	 * {@link #game}.
+	 * Displays the text for current number of
+	 * {@link BaghChal#getGoatsLeftToSet()} on {@link #game}.
 	 */
 	private Text goatsLeftToSet;
 
 	/**
-	 * Displays the text for current number of {@link BaghChal#getGoatsEaten()} on {@link #game}.
+	 * Displays the text for current number of {@link BaghChal#getGoatsEaten()}
+	 * on {@link #game}.
 	 */
 	private Text goatsEaten;
 
 	/**
-	 * Displays the text for current {@link BaghChal#getState()} on {@link #game}.
+	 * Displays the text for current {@link BaghChal#getState()} on
+	 * {@link #game}.
 	 */
 	private Text state;
 
@@ -265,12 +247,11 @@ public class MainWindow extends Application {
 	private MenuBar initMenuBar() {
 
 		// =========================================================================================
-		// ==== HELP MENU ==========================================================================
+		// ==== HELP MENU
 		// =========================================================================================
 
 		MenuItem rules = new MenuItem("_Rules", new ImageView(iconRules));
-		rules.setOnAction(e -> getHostServices()
-				.showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules"));
+		rules.setOnAction(e -> getHostServices().showDocument("https://en.wikipedia.org/wiki/Bagh-Chal#Rules"));
 
 		MenuItem about = new MenuItem("A_bout");
 		about.setOnAction(e -> new AboutAlert(logo).showAndWait());
@@ -278,7 +259,7 @@ public class MainWindow extends Application {
 		Menu menuHelp = new Menu("_Help", null, rules, new SeparatorMenuItem(), about);
 
 		// =========================================================================================
-		// ====== EDIT MENU ========================================================================
+		// ====== EDIT MENU
 		// =========================================================================================
 
 		undo = new MenuItem("_Undo", new ImageView(iconUndo));
@@ -300,7 +281,7 @@ public class MainWindow extends Application {
 		Menu menuEdit = new Menu("_Edit", null, undo, redo);
 
 		// =========================================================================================
-		// ======= FILE MENU =======================================================================
+		// ======= FILE MENU
 		// =========================================================================================
 
 		MenuItem restart = new MenuItem("_New Game");
@@ -317,7 +298,7 @@ public class MainWindow extends Application {
 		Menu menuFile = new Menu("_File", null, restart, new SeparatorMenuItem(), exit);
 
 		// =========================================================================================
-		// ======= BUILDING MENUBAR ================================================================
+		// ======= BUILDING MENUBAR
 		// =========================================================================================
 
 		MenuBar ret = new MenuBar(menuFile, menuEdit, menuHelp);

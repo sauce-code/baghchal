@@ -54,8 +54,8 @@ public class BaghChal implements BaghChalI {
 	private int goatsLeftToSet;
 
 	/**
-	 * The number of goats eaten. This value <b>always</b> has to be in range [ 0 ;
-	 * {@link BaghChalI#TIGER_WIN_CONDITION} ].
+	 * The number of goats eaten. This value <b>always</b> has to be in range [
+	 * 0 ; {@link BaghChalI#TIGER_WIN_CONDITION} ].
 	 */
 	private int goatsEaten;
 
@@ -405,9 +405,10 @@ public class BaghChal implements BaghChalI {
 	 * @param targetColumn
 	 *            target column
 	 * @return
-	 * 		<ul>
+	 *         <ul>
 	 *         <li>{@code 0}, if there is no possible move</li>
-	 *         <li>{@code 1}, if a direct move without jump would be possible</li>
+	 *         <li>{@code 1}, if a direct move without jump would be
+	 *         possible</li>
 	 *         <li>{@code 2}, if a jump would be possible</li>
 	 *         </ul>
 	 */
@@ -432,8 +433,8 @@ public class BaghChal implements BaghChalI {
 	}
 
 	/**
-	 * Returns wether a specific tiger is able to move. This method expects that the given
-	 * {@code row} and {@code column} point on a tiger.
+	 * Returns wether a specific tiger is able to move. This method expects that
+	 * the given {@code row} and {@code column} point on a tiger.
 	 * 
 	 * @param row
 	 *            row of the specific tiger
@@ -446,8 +447,7 @@ public class BaghChal implements BaghChalI {
 			for (int targetColumn = 0; targetColumn < DIM; targetColumn++) {
 				int move = getMovePossibility(row, column, targetRow, targetColumn);
 				if (move == 2 && board[targetRow][targetColumn] == Player.NONE
-						&& board[(row + targetRow) / 2][(column + targetColumn)
-								/ 2] == Player.GOAT) {
+						&& board[(row + targetRow) / 2][(column + targetColumn) / 2] == Player.GOAT) {
 					return true;
 				}
 				if (move == 1 && board[targetRow][targetColumn] == Player.NONE) {
@@ -462,10 +462,10 @@ public class BaghChal implements BaghChalI {
 	 * Returns the winner of this match.
 	 * 
 	 * @return
-	 * 		<ul>
+	 *         <ul>
 	 *         <li>{@link Player#GOAT}, if no tiger can move anymore</li>
-	 *         <li>{@link Player#TIGER}, if {@link BaghChalI#TIGER_WIN_CONDITION} goats are eaten
-	 *         </li>
+	 *         <li>{@link Player#TIGER}, if
+	 *         {@link BaghChalI#TIGER_WIN_CONDITION} goats are eaten</li>
 	 *         <li>{@link Player#NONE}, else</li>
 	 *         </ul>
 	 */
@@ -480,19 +480,19 @@ public class BaghChal implements BaghChalI {
 	}
 
 	/**
-	 * Throws an exception, if the value is not in range {@code [ 0 ; } {@link BaghChalI#DIM}
-	 * {@code )}.
+	 * Throws an exception, if the value is not in range {@code [ 0 ; }
+	 * {@link BaghChalI#DIM} {@code )}.
 	 * 
 	 * @param value
 	 *            value to be checked
 	 * 
 	 * @throws IllegalArgumentException
-	 *             if {@code value} is not in range {@code [ 0 ; } {@link BaghChalI#DIM} {@code )}
+	 *             if {@code value} is not in range {@code [ 0 ; }
+	 *             {@link BaghChalI#DIM} {@code )}
 	 */
 	private void checkInput(int value) {
 		if (value < 0 || value >= DIM) {
-			throw new IllegalArgumentException(
-					"value has to be in range [ 0 ; " + DIM + " ), but was " + value);
+			throw new IllegalArgumentException("value has to be in range [ 0 ; " + DIM + " ), but was " + value);
 		}
 	}
 
