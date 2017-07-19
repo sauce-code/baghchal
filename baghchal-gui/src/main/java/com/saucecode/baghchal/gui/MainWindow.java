@@ -5,9 +5,8 @@ import com.saucecode.baghchal.gui.maps.ColorStrokeMap;
 import com.saucecode.baghchal.gui.maps.StateStringMap;
 import com.saucecode.baghchal.logic.BaghChal;
 import com.saucecode.baghchal.logic.interfaces.BaghChalI;
-import com.saucecode.baghchal.logic.interfaces.Player;
 import com.saucecode.baghchal.logic.interfaces.BaghChalI.Selection;
-import com.saucecode.baghchal.logic.interfaces.BaghChalI.State;
+import com.saucecode.baghchal.logic.interfaces.Player;
 
 import javafx.application.Application;
 import javafx.application.Platform;
