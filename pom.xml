@@ -8,8 +8,9 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>baghchal-gui</module>
-		<module>baghchal-tui</module>
+		
 		<module>baghchal-logic</module>
+		<module>baghchal-tui</module>
 	</modules>
 	<url>https://www.github.com/sauce-code/baghchal</url>
 	<properties>
