@@ -47,22 +47,22 @@ public class MainWindow extends Application {
 	/**
 	 * The icon used for this program.
 	 */
-	private Image logo = new Image(Paths.LOGO);
+	private final Image logo = new Image(Paths.LOGO);
 
 	/**
 	 * The rules icon.
 	 */
-	private Image iconRules = new Image(Paths.ICON_RULES);
+	private final Image iconRules = new Image(Paths.ICON_RULES);
 
 	/**
 	 * The undo icon.
 	 */
-	private Image iconUndo = new Image(Paths.ICON_UNDO);
+	private final Image iconUndo = new Image(Paths.ICON_UNDO);
 
 	/**
 	 * The redo icon.
 	 */
-	private Image iconRedo = new Image(Paths.ICON_REDO);
+	private final Image iconRedo = new Image(Paths.ICON_REDO);
 
 	/**
 	 * The instance of the Bagh Chal game.
@@ -77,17 +77,17 @@ public class MainWindow extends Application {
 	/**
 	 * Stores the colors used for filling pieces.
 	 */
-	private ColorFillMap colorsFill = new ColorFillMap();
+	private final ColorFillMap colorsFill = new ColorFillMap();
 
 	/**
 	 * Stores the colors used for strokes of the pieces.
 	 */
-	private ColorStrokeMap colorsStroke = new ColorStrokeMap();
+	private final ColorStrokeMap colorsStroke = new ColorStrokeMap();
 
 	/**
 	 * Stores the corresponding Strings for each {@link State}.
 	 */
-	private StateStringMap stateStrings = new StateStringMap();
+	private final StateStringMap stateStrings = new StateStringMap();
 
 	/**
 	 * The color being used for strokes of selected pieces.
