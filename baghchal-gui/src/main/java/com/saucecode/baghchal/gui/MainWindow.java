@@ -129,9 +129,9 @@ public class MainWindow extends Application {
 	 */
 	private Group initBoard() {
 		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(4.0, 0.0, 0.0, 12.0));
-		grid.setAlignment(Pos.CENTER);
-		grid.setGridLinesVisible(false);
+//		grid.setPadding(new Insets(4.0, 0.0, 0.0, 12.0));
+//		grid.setAlignment(Pos.CENTER);
+//		grid.setGridLinesVisible(false);
 		tiles = new Circle[BaghChalI.DIM][BaghChalI.DIM];
 
 		for (int x = 0; x < BaghChalI.DIM; x++) {
@@ -139,7 +139,7 @@ public class MainWindow extends Application {
 				final int xPos = x;
 				final int yPos = y;
 				Circle c = new Circle(28.0);
-				c.setStrokeWidth(3.0);
+				c.getStyleClass().add("tile");
 				c.setOnMouseClicked(e -> {
 					if (game.action(xPos, yPos)) {
 						refresh();
@@ -155,7 +155,7 @@ public class MainWindow extends Application {
 
 		for (int x = 0; x < BaghChalI.DIM; x++) {
 			Line line = new Line();
-			line.setStrokeWidth(4.0);
+			line.getStyleClass().add("fieldline");
 			line.startXProperty().bind(tiles[x][0].layoutXProperty());
 			line.startYProperty().bind(tiles[x][0].layoutYProperty());
 			line.endXProperty().bind(tiles[x][4].layoutXProperty());
@@ -165,7 +165,7 @@ public class MainWindow extends Application {
 
 		for (int y = 0; y < BaghChalI.DIM; y++) {
 			Line line = new Line();
-			line.setStrokeWidth(4.0);
+			line.getStyleClass().add("fieldline");
 			line.startXProperty().bind(tiles[0][y].layoutXProperty());
 			line.startYProperty().bind(tiles[0][y].layoutYProperty());
 			line.endXProperty().bind(tiles[4][y].layoutXProperty());
@@ -175,7 +175,7 @@ public class MainWindow extends Application {
 
 		{
 			Line line = new Line();
-			line.setStrokeWidth(4.0);
+			line.getStyleClass().add("fieldline");
 			line.startXProperty().bind(tiles[0][2].layoutXProperty());
 			line.startYProperty().bind(tiles[0][2].layoutYProperty());
 			line.endXProperty().bind(tiles[2][4].layoutXProperty());
@@ -185,7 +185,7 @@ public class MainWindow extends Application {
 
 		{
 			Line line = new Line();
-			line.setStrokeWidth(4.0);
+			line.getStyleClass().add("fieldline");
 			line.startXProperty().bind(tiles[0][0].layoutXProperty());
 			line.startYProperty().bind(tiles[0][0].layoutYProperty());
 			line.endXProperty().bind(tiles[4][4].layoutXProperty());
@@ -195,7 +195,7 @@ public class MainWindow extends Application {
 
 		{
 			Line line = new Line();
-			line.setStrokeWidth(4.0);
+			line.getStyleClass().add("fieldline");
 			line.startXProperty().bind(tiles[2][0].layoutXProperty());
 			line.startYProperty().bind(tiles[2][0].layoutYProperty());
 			line.endXProperty().bind(tiles[4][2].layoutXProperty());
@@ -205,7 +205,7 @@ public class MainWindow extends Application {
 
 		{
 			Line line = new Line();
-			line.setStrokeWidth(4.0);
+			line.getStyleClass().add("fieldline");
 			line.startXProperty().bind(tiles[2][0].layoutXProperty());
 			line.startYProperty().bind(tiles[2][0].layoutYProperty());
 			line.endXProperty().bind(tiles[0][2].layoutXProperty());
@@ -215,7 +215,7 @@ public class MainWindow extends Application {
 
 		{
 			Line line = new Line();
-			line.setStrokeWidth(4.0);
+			line.getStyleClass().add("fieldline");
 			line.startXProperty().bind(tiles[4][0].layoutXProperty());
 			line.startYProperty().bind(tiles[4][0].layoutYProperty());
 			line.endXProperty().bind(tiles[0][4].layoutXProperty());
@@ -225,7 +225,7 @@ public class MainWindow extends Application {
 
 		{
 			Line line = new Line();
-			line.setStrokeWidth(4.0);
+			line.getStyleClass().add("fieldline");
 			line.startXProperty().bind(tiles[4][2].layoutXProperty());
 			line.startYProperty().bind(tiles[4][2].layoutYProperty());
 			line.endXProperty().bind(tiles[2][4].layoutXProperty());
@@ -374,6 +374,7 @@ public class MainWindow extends Application {
 		border.setTop(initMenuBar());
 
 		Scene scene = new Scene(border);
+		scene.getStylesheets().add(Paths.CSS);
 		primaryStage.setTitle(MetaInfo.TITLE);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);

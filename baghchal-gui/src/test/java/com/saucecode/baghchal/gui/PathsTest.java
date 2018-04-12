@@ -63,5 +63,13 @@ public class PathsTest {
 	public void testIconUndo() {
 		testFile(Paths.ICON_UNDO);
 	}
+	
+	/**
+	 * Tests {@link Paths#CSS}.
+	 */
+	@Test
+	public void testCSS() {
+		testFile(Paths.CSS);
+	}
 
 }

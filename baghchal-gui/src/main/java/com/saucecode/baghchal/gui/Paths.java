@@ -27,5 +27,10 @@ public class Paths {
 	 * The path for redo icon.
 	 */
 	public static final String ICON_REDO = "icon-redo.png";
+	
+	/**
+	 * The path for stylesheet.
+	 */
+	public static final String CSS = "style.css";
 
 }
